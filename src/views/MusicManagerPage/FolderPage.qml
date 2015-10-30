@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import DMusic 1.0
 import "../DMusicWidgets"
+import "../Menu"
+
 
 Rectangle {
     id: root
@@ -50,8 +52,14 @@ Rectangle {
         pymodel: FolderListModel
     }
 
+    MusicTypeMenu{
+        id: folderMenu
+        keyType: "Folder"
+    }
+
     FolderController {
         folderView: folderView
         folderListModel: folderListModel
+        folderMenu: folderMenu
     }
 }

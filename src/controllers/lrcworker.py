@@ -45,7 +45,6 @@ class LrcWorker(QObject):
 
     def parserLrc(self, filepath):
         self.lrcParser.set_filename(filepath)
-        print self.lrcParser.scroll_lyrics
         if self.lrcParser.scroll_lyrics:
             signalManager.updateLrc.emit()
 
@@ -57,7 +56,6 @@ class LrcWorker(QObject):
         if ret:
             text, percentage, lyric_id = ret
             if self._lineMode == 1:
-                print(text, percentage, lyric_id)
                 signalManager.singleTextInfoChanged.emit(text, percentage, lyric_id)
             elif self._lineMode == 2:
                 texts = []

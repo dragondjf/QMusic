@@ -198,11 +198,6 @@ Item {
             Qt.mainController.showMainWindow();
         }
 
-        onMenuShowed: {
-            MenuWorker.settingMenuShow('SimpleWindow');
-        }
-        
-
         onShowMinimized: {
             MainWindow.showMinimized();
         }

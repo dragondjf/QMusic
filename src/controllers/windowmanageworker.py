@@ -19,6 +19,8 @@ class WindowManageWorker(QObject):
 
     switchPageByID = pyqtSignal('QString')
 
+    windowModeChanged = pyqtSignal('QString')
+
     __contextName__ = 'WindowManageWorker'
 
     @registerContext
@@ -42,13 +44,14 @@ class WindowManageWorker(QObject):
     def cursorPos(self):
         return QCursor.pos()
 
-    @pyqtProperty('QString')
+    @pyqtProperty('QString', notify=windowModeChanged)
     def windowMode(self):
         return self._windowMode
 
     @windowMode.setter
     def windowMode(self, mode):
         self._windowMode = mode
+        self.windowModeChanged.emit(mode)
 
     @pyqtProperty('QString')
     def lastWindowMode(self):

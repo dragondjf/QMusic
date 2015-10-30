@@ -278,6 +278,7 @@ class MenuWorker(QObject):
     miniTrigger = pyqtSignal()
     addSongFile = pyqtSignal()
     addSongFolder = pyqtSignal()
+    updateTrigger = pyqtSignal()
     settingTrigger = pyqtSignal()
     exitTrigger = pyqtSignal()
 

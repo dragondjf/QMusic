@@ -3,6 +3,7 @@ import QtQuick 2.3
 Item {
     property var folderView
     property var folderListModel
+    property var folderMenu
 
     Connections {
         target: folderView
@@ -15,7 +16,10 @@ Item {
         }
 
         onRightClicked:{
-            MenuWorker.folderMenuShow(folderListModel.get(index).name);
+            var name = folderListModel.get(index).name;
+            folderMenu.keyName = name;
+            folderMenu.playlistNames = PlaylistWorker.playlistNames;
+            folderMenu.popup();
         }
     }
 

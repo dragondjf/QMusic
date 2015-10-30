@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import DMusic 1.0
 import "../DMusicWidgets"
+import "../Menu"
 
 Rectangle {
     id: root
@@ -43,7 +44,13 @@ Rectangle {
         pymodel: AlbumListModel
     }
 
+    MusicTypeMenu{
+        id: albumMenu
+        keyType: "Album"
+    }
+
     AlbumController {
         albumView: albumView
+        albumMenu: albumMenu
     }
 }

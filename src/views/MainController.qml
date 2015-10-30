@@ -81,10 +81,6 @@ Item {
         onSimpleWindowShowed: {
             showSimpleWindow();
         }
-        
-        onMenuShowed: {
-            MenuWorker.settingMenuShow('MainWindow');
-        }
 
         onShowMinimized: {
             MainWindow.showMinimized()

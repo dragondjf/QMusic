@@ -395,10 +395,12 @@ class PlaylistWorker(QObject):
                 playlist.addMedia(url)
 
     def addSongsToPlaylist(self, value, playlistName, _type):
+        print(value, playlistName, _type, playlistName in self._playlists)
         if playlistName in self._playlists:
             playlist =  self._playlists[playlistName]
             if _type == "Artist":
                 urls = MusicManageWorker.getUrlsByArtist(value)
+                print urls
                 playlist.addMedias(urls)
             elif _type == 'Album':
                 urls = MusicManageWorker.getUrlsByAlbum(value)

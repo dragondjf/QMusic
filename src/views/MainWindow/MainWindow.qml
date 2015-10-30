@@ -128,7 +128,6 @@ Rectangle {
         height: 30
         width: stackViews.width
     }
-
    
 
     MainWindowController{

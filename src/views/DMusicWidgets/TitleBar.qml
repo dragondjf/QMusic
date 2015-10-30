@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.1
 import DMusic 1.0
+import "../Menu"
 
 
 Rectangle {
@@ -14,6 +15,7 @@ Rectangle {
     property alias menuButton: menuButton
     property alias minButton: minButton
     property alias closeButton: closeButton
+    property alias titleBarMenu: titleBarMenu
     property var windowFlag: true
 
     signal simpleWindowShowed()
@@ -52,7 +54,7 @@ Rectangle {
             height: root.iconHeight
 
             onClicked:{
-                root.menuShowed();
+                titleBarMenu.popup();
             }
         }
 
@@ -62,7 +64,7 @@ Rectangle {
             height: root.iconHeight
 
             onClicked:{
-                root.showMinimized()
+                root.showMinimized();
             }
         }
 
@@ -72,8 +74,12 @@ Rectangle {
             height: root.iconHeight
 
             onClicked:{
-                root.closed()
+                root.closed();
             }
         }
+    }
+
+    TitleBarMenu{
+        id: titleBarMenu
     }
 }

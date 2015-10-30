@@ -2,6 +2,7 @@ import QtQuick 2.3
 
 Item {
     property var albumView
+    property var albumMenu
 
     Connections {
         target: albumView
@@ -14,7 +15,9 @@ Item {
         }
 
         onRightClicked:{
-            MenuWorker.albumMenuShow(name);
+            albumMenu.keyName = name;
+            albumMenu.playlistNames = PlaylistWorker.playlistNames;
+            albumMenu.popup();
         }
     }
 }
