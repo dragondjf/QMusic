@@ -54,7 +54,7 @@ QMusic是基于python + PyQT5 + QML的一款本地音乐播放器，旨在提升
 	
 	![search](./doc/images/search.png)
 
-+ 简介模式
++ 简洁模式
 	
 	![simple](./doc/images/simple.png)
 
