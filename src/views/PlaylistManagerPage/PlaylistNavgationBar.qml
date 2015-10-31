@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import DMusic 1.0
 import "../DMusicWidgets"
+import "../Menu"
 
 Rectangle {
 
@@ -149,6 +150,14 @@ Rectangle {
         }
     }
 
+    PlaylistMenu{
+        id: playlistMenu
+    }
+
+    CustomPlaylistMenu{
+        id: customPlaylistMenu
+    }
+
     PlaylistNavgationBarController{
         playlistNavgationBar: playlistNavgationBar
         addButton: addButton
@@ -156,5 +165,7 @@ Rectangle {
         temporaryDelegate: temporaryDelegate
         playlistInputText: playlistInputText
         customPlaylistView: customPlaylistView
+        playlistMenu: playlistMenu
+        customPlaylistMenu: customPlaylistMenu
     }
 }

@@ -88,6 +88,7 @@ Rectangle {
                         id: musicDownload
                         width: 20
                         height: 20
+                        visible: false
                     }
                 }
             }

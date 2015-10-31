@@ -3,7 +3,7 @@ import QtQuick 2.3
 Item {
 
     property var localSongsView
-
+    property var searchSongMenu
 
     Binding {
         target: localSongsView
@@ -27,7 +27,9 @@ Item {
         }
 
         onMenuShowed:{
-            MenuWorker.searchLocalSongShowed(url);
+            searchSongMenu.keyName = url;
+            searchSongMenu.playlistNames = PlaylistWorker.playlistNames;
+            searchSongMenu.popup();
         }
     }
 }

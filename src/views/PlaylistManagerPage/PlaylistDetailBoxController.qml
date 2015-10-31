@@ -6,6 +6,7 @@ Item {
     property var noMusicTip
     property var titleText
     property var linkTipText
+    property var playlistSongMenu
 
     function init() {
         MenuWorker.playMusicByUrl.connect(playlistView.playMusicByUrl);
@@ -76,7 +77,9 @@ Item {
         }
 
         onLocalMenuShowed: {
-            MenuWorker.playlistLocalSongMenuShow(playlistDetailBox.currentPlaylistName, songUrl);
+            playlistSongMenu.keyName = songUrl;
+            playlistSongMenu.playlistNames = PlaylistWorker.playlistNames;
+            playlistSongMenu.popup();
         }
 
         onOnlineMenuShowed: {

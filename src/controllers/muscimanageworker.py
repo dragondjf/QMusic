@@ -613,8 +613,9 @@ class MusicManageWorker(QObject):
         self.postSongs(urls)
 
     def postSongs(self, urls):
-        self.addSongsToPlaylist.emit(urls)
-        self.playSongByUrl.emit(urls[0])
+        if len(urls) > 0:
+            self.addSongsToPlaylist.emit(urls)
+            self.playSongByUrl.emit(urls[0])
 
     def playSongMusic(self, url):
         self.addSongToPlaylist.emit(url)

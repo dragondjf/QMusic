@@ -5,7 +5,7 @@ Rectangle {
 	anchors.fill: parent
     Text{
         anchors.centerIn: root
-        text: 'Welcome, this is Music Manager Page!'
+        text: 'Welcome, this is Lrc Page!'
         font.family: "微软雅黑"
         font.pointSize: 10
         color: "#a0a0a0"

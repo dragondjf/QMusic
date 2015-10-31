@@ -166,6 +166,7 @@ class DMediaPlaylist(QMediaPlaylist):
         self._urls.append(url)
 
     def removeMediaByUrl(self, url):
+        print url, url in self._urls
         if url in self._urls:
             index = self._urls.index(url)
             self._urls.remove(url)
@@ -382,6 +383,7 @@ class PlaylistWorker(QObject):
         self.removeFromFavorite(url)
 
     def removeFromPlaylist(self, playlistName, url):
+        print(playlistName in self._playlists)
         if playlistName in self._playlists:
             playlist =  self._playlists[playlistName]
             playlist.removeMediaByUrl(url)

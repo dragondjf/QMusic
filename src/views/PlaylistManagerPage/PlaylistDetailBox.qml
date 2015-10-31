@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import DMusic 1.0
+import "../Menu"
 
 Rectangle {
     id: playlistDetailBox
@@ -165,11 +166,16 @@ Rectangle {
                         elide: Text.ElideRight
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        text: "到 <a href=\"Online\" style=\"text-decoration:none;\">网络音乐</a> 和<a href=\"Local\" style=\"text-decoration:none;\">本地乐库</a>添加你喜欢的音乐吧"
+                        text: "到<a href=\"Local\" style=\"text-decoration:none;\">本地乐库</a>添加你喜欢的音乐吧"
                     }
                 }
             }
         }
+    }
+
+    PlaylistSongMenu{
+        id: playlistSongMenu
+        currentPlaylistName: playlistDetailBox.currentPlaylistName
     }
 
     PlaylistDetailBoxController {
@@ -179,5 +185,6 @@ Rectangle {
         noMusicTip: noMusicTip
         titleText: titleText
         linkTipText: linkTipText
+        playlistSongMenu: playlistSongMenu
     }
 }

@@ -1,31 +1,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 
-// SongMenuItems = [
-//     ('Play', menuI18nWorker.play),
-//     None,
-//     ('AddToSinglePlaylist', menuI18nWorker.addToSinglePlaylist, (), []),
-//     ('AddToMutiPlaylist', menuI18nWorker.addToMutiPlaylist),
-//     ('NewPlaylist', menuI18nWorker.newPlaylist),
-//     None,
-//     ('Order', menuI18nWorker.order, (), [
-//         CheckableMenuItem('Order_group:radio:OrderBySongName', menuI18nWorker.orderBySongName),
-//         CheckableMenuItem('Order_group:radio:OrderByArtist', menuI18nWorker.orderByArtist),
-//         CheckableMenuItem('Order_group:radio:OrderByAlbum', menuI18nWorker.orderByAlbum),
-//         CheckableMenuItem('Order_group:radio:OrderByDuration', menuI18nWorker.orderByDuration),
-//         CheckableMenuItem('Order_group:radio:OrderByPlayCount', menuI18nWorker.orderByPlayCount),
-//         CheckableMenuItem('Order_group:radio:OrderByAddTime', menuI18nWorker.orderByAddTime, True),
-//         CheckableMenuItem('Order_group:radio:OrderByFileSize', menuI18nWorker.orderByFileSize),
-//         ]),
-//     None,
-//     ('RemoveFromDatabase', menuI18nWorker.removeFromDatabase),
-//     ('RemoveFromDriver', menuI18nWorker.removeFromDriver),
-//     None,
-//     ('OpenFolder', menuI18nWorker.openFolder),
-//     ('Information', menuI18nWorker.information)
-// ]
-
-
 Menu {
     id: root
     property var keyName

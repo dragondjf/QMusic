@@ -454,14 +454,14 @@ class MediaPlayer(QObject):
                 self.songId = songObj.songId
         else:
             songObj = MusicManageWorker.getSongObjByUrl(url)
-        
         if self._songObj:
             self._songObj.coverReady.disconnect(self.setCover)
             self._songObj = None
 
         self._songObj = songObj
-        self._songObj.coverReady.connect(self.setCover)
-        self._songObj.getCover()
+        if self._songObj:
+            self._songObj.coverReady.connect(self.setCover)
+            self._songObj.getCover()
 
         if songObj:
             self.title = songObj.title

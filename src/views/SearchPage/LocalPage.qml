@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQml.Models 2.1
 import DMusic 1.0
+import "../Menu"
 
 Rectangle {
     id: localPage
@@ -119,7 +120,12 @@ Rectangle {
         }
     }
 
+    SearchSongMenu{
+        id: searchSongMenu
+    }
+
     LocalController {
         localSongsView: songListView.view
+        searchSongMenu: searchSongMenu
     }
 }

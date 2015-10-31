@@ -9,6 +9,8 @@ Item {
     property var temporaryDelegate
     property var playlistInputText
     property var customPlaylistView
+    property var playlistMenu
+    property var customPlaylistMenu
 
     function init() {
         MenuWorker.playFTAllSongs.connect(checkFTPlaylistName)
@@ -93,7 +95,8 @@ Item {
         }
 
         onRightClicked:{
-            MenuWorker.ftPlaylistNavigationMenuShow('favorite');
+            playlistMenu.currentPlaylistName = 'favorite';
+            playlistMenu.popup();
         }
     }
 
@@ -105,12 +108,12 @@ Item {
             }else {
                 starDelegate.state = '!Checked'
             }
-            
             customPlaylistView.currentIndex = -1
             playlistNavgationBar.playlistNameChanged  (temporaryDelegate.name);
         }
         onRightClicked:{
-            MenuWorker.ftPlaylistNavigationMenuShow('temporary');
+            playlistMenu.currentPlaylistName = 'temporary';
+            playlistMenu.popup();
         }
     }
 
@@ -134,7 +137,9 @@ Item {
         }
 
         onMenuShowed:{
-            MenuWorker.playlistNavigationMenuShow(name, index);
+            customPlaylistMenu.currentPlaylistName = name;
+            customPlaylistMenu.playlistNavigationIndex = index;
+            customPlaylistMenu.popup();
         }
     }
 
