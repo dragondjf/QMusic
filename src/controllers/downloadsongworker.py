@@ -21,7 +21,6 @@ from collections import OrderedDict
 from config.constants import LevevDBPath
 from dwidgets import DListModel, ModelMetaclass
 from dwidgets.mediatag.song import Song as SongDict
-from .web360apiworker import Web360ApiWorker
 from .signalmanager import signalManager
 from .onlinemuscimanageworker import OnlineMusicManageWorker
 from dwidgets import dthread
@@ -117,8 +116,8 @@ class DownloadSongObject(QObject):
             song.size = os.path.getsize(self.filename)
             song.saveTags()
             self.addSongToDB.emit(self.filename)
-            signalManager.switchOnlinetoLocal.emit(
-                Web360ApiWorker.getUrlByID(self.songId), self.filename)
+            # signalManager.switchOnlinetoLocal.emit(
+            #     Web360ApiWorker.getUrlByID(self.songId), self.filename)
 
     def startDownLoad(self):
         if os.path.exists(self.filename):
@@ -155,10 +154,7 @@ class DownloadSongObject(QObject):
 
     @dthread
     def getMusicInfo(self, musicId):
-        url = Web360ApiWorker.getUrlByID(musicId)
-        result = Web360ApiWorker.getResultByUrl(url)
-        if result:
-            self.fieldsUpdated.emit(result)
+       print(musicId)
 
 
 class DownloadSongListModel(DListModel):

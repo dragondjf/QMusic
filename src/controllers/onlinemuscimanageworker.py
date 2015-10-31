@@ -25,7 +25,6 @@ from config.constants import LevevDBPath, CoverPath, MusicManagerPath
 from .coverworker import CoverWorker
 
 from dwidgets import DListModel, ModelMetaclass
-from .web360apiworker import Web360ApiWorker
 
 
 class QmlOnlineSongObject(QObject):
@@ -88,10 +87,7 @@ class RequestSongRunnable(QRunnable):
         self.url = url
 
     def run(self):
-        result = Web360ApiWorker.request(self.url)
-        if result:
-            result.update({'url': self.url})
-            self.worker.updateSongSignal.emit(result)
+        pass
 
 
 class OnlineMusicManageWorker(QObject):

@@ -176,21 +176,6 @@ Item {
         }
     }
 
-    // Connections {
-    //     target: webEngineViewPage
-    //     onPlayMusicById: Web360ApiWorker.playMusicByIdSignal(musicId)
-    //     onPlayMusicByIds: Web360ApiWorker.playMusicByIdsSignal(musicIds)
-    //     onPlaySonglistById: Web360ApiWorker.playSonglistByIdSignal(songlistId)
-    //     onPlaySonglistByName: Web360ApiWorker.playSonglistByNameSignal(songlistName)
-    //     onPlayAlbumById: Web360ApiWorker.playAlbumByIdSignal(albumId)
-
-    //     onAddFavorite: Web360ApiWorker.addFavoriteSignal(musicId)
-    //     onRemoveFavorite: Web360ApiWorker.removeFavoriteSignal(musicId)
-
-    //     onDownloadSong: Web360ApiWorker.downloadSongSignal(musicId)
-    //     onDownloadSongs: Web360ApiWorker.downloadSongsSignal(musicIds)
-    // }
-
     Connections {
         target: playBottomBar.musicStarButton
         onClicked:{

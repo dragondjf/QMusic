@@ -13,7 +13,6 @@ from models import *
 from dwidgets import DListModel, ModelMetaclass
 from .muscimanageworker import QmlSongObject, QmlArtistObject, QmlAlbumObject, MusicManageWorker
 from .signalmanager import signalManager
-from .web360apiworker import Web360ApiWorker
 from .utils import registerContext
 from config.constants import OnlineAlbumCoverPath
 from .coverworker import CoverWorker
@@ -229,7 +228,7 @@ class SearchWorker(QObject):
             songList = result['songList']
 
             for song in songList:
-                song['url'] = Web360ApiWorker.getUrlByID(int(song['songId']))
+                song['url'] = ""
                 song['title'] = song['songName']
                 song['artist'] = song['singerName']
                 song['album'] = song['albumName']

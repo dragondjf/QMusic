@@ -15,7 +15,6 @@ from .coverworker import CoverWorker
 from log import logger
 from .muscimanageworker import MusicManageWorker
 from .onlinemuscimanageworker import OnlineMusicManageWorker
-from .web360apiworker import Web360ApiWorker
 from .signalmanager import signalManager
 
 

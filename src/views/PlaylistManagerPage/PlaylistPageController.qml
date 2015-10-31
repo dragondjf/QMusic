@@ -24,7 +24,7 @@ Item {
 
     function playMusicByUrl(url) {
         if (url.indexOf('http') != -1){
-            Web360ApiWorker.playMediaByUrl(url);
+            print(url)
         }else{
             MediaPlayer.playLocalMedia(url);
         }
