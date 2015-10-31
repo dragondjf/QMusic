@@ -2,14 +2,20 @@ import QtQuick 2.3
 import QtGraphicalEffects 1.0
 import DMusic 1.0
 import "../DMusicWidgets"
-import Deepin.Widgets 1.0
 
-DWindowFrame {
 
+DMovableWindow {
+    id: informationWindow
     width: 304
     height: 636
 
-    content: Rectangle {
+    flags: Qt.FramelessWindowHint
+
+    color: Qt.rgba(0, 0, 0, 0.1)
+
+    property var songObj
+
+    Rectangle {
         id: contentItem
         anchors.fill: parent
         anchors.margins: 2
@@ -31,7 +37,7 @@ DWindowFrame {
                     anchors.right: parent.right
                     anchors.top: parent.top
                     onClicked:{
-                        SignalManager.dialogClosed();
+                        informationWindow.close();
                     }
                 }
             }
@@ -57,7 +63,7 @@ DWindowFrame {
                                 source: QmlDialog.songObj.cover
                             }
 
-                            DText {
+                            Text {
                                 width: parent.width
                                 height: 12
                                 color: "#888888"

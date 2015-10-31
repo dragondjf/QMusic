@@ -2,7 +2,7 @@ import QtQuick 2.3
 import QtQuick.Window 2.2
 
 Window {
-    id: miniWindow
+    id: rootWindow
 
     flags: Qt.FramelessWindowHint | Qt.Dialog | Qt.WindowStaysOnTopHint
 
@@ -18,8 +18,8 @@ Window {
         onPressed: {
             var pos = WindowManageWorker.cursorPos
             
-            windowLastX = miniWindow.x
-            windowLastY = miniWindow.y
+            windowLastX = rootWindow.x
+            windowLastY = rootWindow.y
             dragStartX = pos.x
             dragStartY = pos.y
         }
@@ -27,13 +27,20 @@ Window {
         onPositionChanged: {
             if (pressed) {
                 var pos = WindowManageWorker.cursorPos
-                miniWindow.x = (windowLastX + pos.x - dragStartX)
-                miniWindow.y = (windowLastY + pos.y - dragStartY)
-                windowLastX = miniWindow.x
-                windowLastY = miniWindow.y
+                rootWindow.x = (windowLastX + pos.x - dragStartX)
+                rootWindow.y = (windowLastY + pos.y - dragStartY)
+                windowLastX = rootWindow.x
+                windowLastY = rootWindow.y
                 dragStartX = pos.x
                 dragStartY = pos.y
             }
         }
+    }
+
+    function moveCenter() {
+        var height = Screen.desktopAvailableHeight;
+        var width = Screen.desktopAvailableWidth;
+        rootWindow.x = (width - rootWindow.width) / 2
+        rootWindow.y = (height - rootWindow.height) / 2
     }
 }

@@ -1,14 +1,13 @@
 import QtQuick 2.3
 import DMusic 1.0
-import Deepin.Widgets 1.0
-
+import QtQuick.Controls 1.3
 
 Row {
 
     property alias keyText: keyLabel.text
     property alias valueText: valueLabel.text
     spacing: 20
-    DLabel {
+    Label {
         id: keyLabel
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignRight
@@ -17,7 +16,7 @@ Row {
         color: "#888888"
     }
 
-    DLabel {
+    Label {
         id: valueLabel
         elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft

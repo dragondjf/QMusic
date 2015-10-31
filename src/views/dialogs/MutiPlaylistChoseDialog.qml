@@ -1,7 +1,7 @@
 import QtQuick 2.3
 import DMusic 1.0
 import "../DMusicWidgets"
-import Deepin.Widgets 1.0
+
 
 StandardDialog {
     id: mediaItem
@@ -25,10 +25,6 @@ StandardDialog {
             focus: true
             spacing: 2
             snapMode:ListView.SnapToItem
-            DScrollBar {
-                flickable: parent
-                inactiveColor: 'black'
-            }
 
             Component.onCompleted: {
                 positionViewAtIndex(currentIndex, ListView.Center)

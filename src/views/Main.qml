@@ -6,6 +6,7 @@ import "./SimpleWindow"
 import "./MiniWindow"
 import "./TemporaryWindow"
 import "./LrcWindow"
+import "./dialogs"
 
 Rectangle {
     id: root

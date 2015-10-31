@@ -72,10 +72,8 @@ class QmlDialog(DQuickView):
         self.songObj['cover'] = coverWorker.getCover(self.songObj['title'], self.songObj['artist'], self.songObj['album'])
         content = lrcWorker.getLrcContent(self.songObj['title'], self.songObj['artist'])
         self.songObj['lyric'] = ''.join(content)
-        self.setSource(QUrl.fromLocalFile(
-            os.path.join(get_parent_dir(__file__, 2), 'views','dialogs' ,'InformationDialog.qml')))
-        self.moveCenter()
-        self.show()
+        print self.songObj
+        signalManager.informationDialogShowed.emit(self.songObj)
 
     def addMutiPlaylist(self, flags):
         signalManager.addSongsToMultiPlaylist.emit(self._id, self._type, flags.toVariant())

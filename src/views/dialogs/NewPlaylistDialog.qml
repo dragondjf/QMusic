@@ -1,7 +1,6 @@
 import QtQuick 2.3
 import DMusic 1.0
 import "../DMusicWidgets"
-import Deepin.Widgets 1.0
 
 StandardDialog {
     id: mediaItem
@@ -9,7 +8,7 @@ StandardDialog {
     width: 300
     // height: 100
 
-    centerItem: DTextInput {
+    centerItem: TextInput {
         id: playlistInputText
         anchors.centerIn: parent
         text: I18nWorker.newPlaylist + (PlaylistWorker.playlistNames.length + 1)

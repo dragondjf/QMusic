@@ -126,6 +126,9 @@ class SignalManager(QObject):
     # SystemTray
     systemTrayContext = pyqtSignal()
 
+    #information Dialog show
+    informationDialogShowed = pyqtSignal(dict)
+
     exited = pyqtSignal()
 
     @registerContext

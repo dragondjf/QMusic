@@ -20,6 +20,7 @@ Item {
         MenuWorker.settingTrigger.connect(loadSettingPage);
         MenuWorker.exitTrigger.connect(closeAll)
 
+        SignalManager.informationDialogShowed.connect(showInformationWindow);
         // UnLockWindow.qPositionChanged.connect(updateLrcWindowPosition)
     }
 
@@ -56,6 +57,18 @@ Item {
 
         WindowManageWorker.windowMode = 'Mini'
     }
+
+    function showInformationWindow(songObj) {
+        print(songObj)
+        var component = Qt.createComponent("./dialogs/InformationDialog.qml");  
+        var item = component.createObject(rootWindow, {"songObj":songObj});
+        if (item == null) {
+            console.log("Error creating InformationDialog object");
+        }else{
+            item.visible = true;
+            item.moveCenter();
+        }
+}
 
     function closeAll() {
         Qt.quit();
