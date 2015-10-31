@@ -11,7 +11,7 @@ from PyQt5.QtGui import QCursor, QDesktopServices
 from .utils import registerContext
 from config.constants import LRCPath
 from log import logger
-from deepin_utils.net import is_network_connected
+
 from dwidgets.coverlrc.lrc_download import TTPlayer, DUOMI, SOSO, TTPod
 from dwidgets.coverlrc.cover_query import poster
 from dwidgets.coverlrc.lrc_parser import LrcParser
