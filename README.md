@@ -34,10 +34,6 @@ virtualenv用于创建独立的Python环境，多个Python相互独立，互不�
 ###5. 安装WebEngineWrapper
 	git clone git@github.com:rodrigogolive/WebEngineWrapper.git
 
-
-###6. deepin_menu
-	git clone git@github.com:linuxdeepin/deepin-menu.git
-
 ###7. pyquery
 	sudo apt-get install libxml2-dev libxslt1-dev python-dev
 	sudo apt-get install zlib1g-dev

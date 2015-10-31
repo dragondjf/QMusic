@@ -1,7 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Window 2.2
 import DMusic 1.0
-import Deepin.Widgets 1.0
+// import Deepin.Widgets 1.0
 import "../DMusicWidgets"
 import "../DMusicWidgets/MiniWindow"
 import "../DMusicWidgets/CustomSlider"
