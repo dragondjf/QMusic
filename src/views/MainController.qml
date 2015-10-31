@@ -67,6 +67,7 @@ Item {
         }else{
             item.visible = true;
             item.moveCenter();
+            item.y = MainWindow.y;
         }
 }
 
