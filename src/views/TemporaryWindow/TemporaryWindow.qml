@@ -2,6 +2,7 @@ import QtQuick 2.3
 import DMusic 1.0
 import "../DMusicWidgets"
 import "../DMusicWidgets/TermporyWindow"
+import "../Menu"
 
 DRectWithCorner {
     id: temporaryWindow
@@ -165,6 +166,10 @@ DRectWithCorner {
         pymodel: getModel()
     }
 
+    TemporyWindowMenu{
+        id: temporyWindowMenu
+    }
+
     TemporaryWindowController {
         id: temporaryWindowController
         temporaryWindow: temporaryWindow
@@ -172,5 +177,6 @@ DRectWithCorner {
         songListModel: songListModel
         clearButton: clearButton
         closeButton: closeButton
+        temporyWindowMenu: temporyWindowMenu
     }
 }

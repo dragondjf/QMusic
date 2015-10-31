@@ -6,6 +6,7 @@ Item {
     property var songListModel
     property var clearButton
     property var closeButton
+    property var temporyWindowMenu
 
     function init(){
         MediaPlayer.playlistChanged.connect(updateModel);
@@ -70,8 +71,12 @@ Item {
             var playlist = MediaPlayer.playlist;
             if (playlist){
                 var name = playlist.name
-                MenuWorker.temporaryMenuShowed(name, songUrl);
+                temporyWindowMenu.url = songUrl;
+                temporyWindowMenu.currentPlaylistName = name;
+                temporyWindowMenu.popup();
             }
+
+
         }
         onModelChanged: playlistView.positionViewAtEnd()
     }
