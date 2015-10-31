@@ -36,6 +36,11 @@ QMusic是基于python + PyQT5 + QML的一款本地音乐播放器，旨在提升
 			sudo apt-get install libcurl4-openssl-dev
 			pip install pycurl
 
+####运行
+
+	cd src
+	python main.py
+
 ####欣赏
 + 本地音乐管理分类
 
