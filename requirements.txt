@@ -1,4 +1,5 @@
 chardet==2.3.0
-mutagen==1.28
-peewee==2.4.7
-requests==2.5.3
+leveldb==0.193
+mutagen==1.29
+peewee==2.6.4
+requests==2.7.0

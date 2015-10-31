@@ -9,7 +9,7 @@ parentDir = os.path.dirname
 
 Home = os.path.expanduser('~')
 ConfigPath = os.path.join(Home, '.config')
-ProjectName = "deepin-muisc"
+ProjectName = "QMusic"
 ProjectPath = os.path.join(ConfigPath, ProjectName)
 
 MusicManagerPath = os.path.join(ProjectPath, 'music')
