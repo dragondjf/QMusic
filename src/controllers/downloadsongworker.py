@@ -21,7 +21,6 @@ from collections import OrderedDict
 from config.constants import LevevDBPath
 from dwidgets import DListModel, ModelMetaclass
 from dwidgets.mediatag.song import Song as SongDict
-from .web360apiworker import Web360ApiWorker
 from .signalmanager import signalManager
 from .onlinemuscimanageworker import OnlineMusicManageWorker
 from dwidgets import dthread
