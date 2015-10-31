@@ -1,0 +1,25 @@
+Source: qmusic
+Section: gnome
+Priority: optional
+Maintainer: dragondjf <dragondjf@gmail.com>
+Build-Depends: debhelper (>= 9), dh-python, python
+Standards-Version: 3.9.6
+Homepage: https://github.com/dragondjf/QMusic
+
+Package: qmusic
+Architecture: all
+Depends: python,
+         python-chardet,
+         python-faulthandler,
+         python-leveldb,
+         python-mutagen,
+         python-peewee,
+         python-pycurl,
+         python-pyqt5,
+         python-pyqt5.multimedia,
+         python-pyqt5.qtquick,
+         python-pyquery,
+         python-requests,
+         qml-module-qtmultimedia,
+         qml-module-qtqml-models2,
+Description: Music player for Linux users

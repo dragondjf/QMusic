@@ -1,0 +1,10 @@
+Metadata-Version: 1.1
+Name: QMusic
+Version: 1.0
+Summary: A music player based on PyQt5, aim to get better music experience under Linux!
+Home-page: https://github.com/dragondjf/QMusic
+Author: dragondjf
+Author-email: dragondjf@gmail.com
+License: GPL v2+
+Description: UNKNOWN
+Platform: UNKNOWN
