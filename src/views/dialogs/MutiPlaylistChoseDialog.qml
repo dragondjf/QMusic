@@ -46,7 +46,6 @@ StandardDialog {
     }
 
     onEntered:{
-        
         SignalManager.addMutiPlaylistFlags(playlistView.checkNames)
         SignalManager.dialogClosed();
     }

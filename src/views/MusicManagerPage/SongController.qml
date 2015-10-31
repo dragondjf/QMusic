@@ -3,6 +3,7 @@ import QtQuick 2.3
 Item {
 
     property var songsView
+    property var songMenu
 
     Binding {
         target: songsView
@@ -26,7 +27,9 @@ Item {
         }
 
         onMenuShowed:{
-            MenuWorker.songMenuShow('AllSongs', url);
+            songMenu.keyName = url;
+            songMenu.playlistNames = PlaylistWorker.playlistNames;
+            songMenu.popup();
         }
     }
 

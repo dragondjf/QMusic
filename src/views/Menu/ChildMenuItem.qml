@@ -6,6 +6,11 @@ MenuItem{
     property var playlistName
     property var keyType
     onTriggered: {
-        MenuWorker.addSongsToPlaylist(keyName, playlistName, keyType)
+        print(keyType)
+        if (keyType == "Song"){
+            MenuWorker.addSongToPlaylist(keyName, playlistName);
+        }else if (keyType == "Artist" || keyType=="Album" || keyType == "Folder"){
+            MenuWorker.addSongsToPlaylist(keyName, playlistName, keyType);
+        }
     }
 }

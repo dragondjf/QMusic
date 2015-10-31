@@ -51,8 +51,6 @@ Menu {
         }
     }
 
-    MenuSeparator { }
-
     MenuItem {
         text: MenuI18nWorker.removeFromDriver
         onTriggered: {

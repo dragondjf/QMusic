@@ -5,6 +5,7 @@ Item {
     property var detailImageItem
     property var detailView
     property var songListModel
+    property var detailSongMenu
 
     Binding {
         target: detailView
@@ -27,7 +28,9 @@ Item {
         }
 
         onMenuShowed:{
-            MenuWorker.songMenuShow('DetailSubSongs', url);
+            detailSongMenu.keyName = url;
+            detailSongMenu.playlistNames = PlaylistWorker.playlistNames;
+            detailSongMenu.popup();
         }
     }
 

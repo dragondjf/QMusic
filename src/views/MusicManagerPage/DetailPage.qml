@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import DMusic 1.0
 import "../DMusicWidgets/MusicManager"
+import "../Menu"
 
 Rectangle {
     id: detailPage
@@ -144,10 +145,16 @@ Rectangle {
         pymodel: DetailSongListModel
     }
 
+    SongMenu {
+        id: detailSongMenu
+        modelType: "DetailSubSongs"
+    }
+
     DetailController {
         detailPage: detailPage
         detailImageItem: detailImageItem
         detailView: detailView
         songListModel: songListModel
+        detailSongMenu: detailSongMenu
     }
 }

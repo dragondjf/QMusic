@@ -2,6 +2,7 @@ import QtQuick 2.3
 
 Item {
     property var folderView
+    property var folderDetailSongMenu
 
     Binding {
         target: folderView
@@ -25,7 +26,9 @@ Item {
         }
 
         onMenuShowed:{
-            MenuWorker.songMenuShow('DetailSubSongs', url);
+            folderDetailSongMenu.keyName = url;
+            folderDetailSongMenu.playlistNames = PlaylistWorker.playlistNames;
+            folderDetailSongMenu.popup();
         }
     }
 }

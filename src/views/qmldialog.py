@@ -78,7 +78,7 @@ class QmlDialog(DQuickView):
         self.show()
 
     def addMutiPlaylist(self, flags):
-        signalManager.addSongsToMultiPlaylist.emit(self._id, self._type, flags)
+        signalManager.addSongsToMultiPlaylist.emit(self._id, self._type, flags.toVariant())
 
     def mouseMoveEvent(self, event):
         if hasattr(self, "dragPosition"):

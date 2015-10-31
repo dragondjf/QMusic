@@ -3,7 +3,6 @@ import DMusic 1.0
 import "../DMusicWidgets"
 import "../Menu"
 
-
 Rectangle {
     id: root
 

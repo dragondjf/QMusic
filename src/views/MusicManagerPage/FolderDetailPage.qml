@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import DMusic 1.0
 import "../DMusicWidgets/MusicManager"
+import "../Menu"
 
 Rectangle {
     id: detailPage
@@ -37,7 +38,13 @@ Rectangle {
         }
     }
 
+    SongMenu {
+        id: folderDetailSongMenu
+        modelType: "DetailSubSongs"
+    }
+
     FolderDetailPageController {
         folderView: songListView.view
+        folderDetailSongMenu:folderDetailSongMenu
     }
 }
