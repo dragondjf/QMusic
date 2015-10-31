@@ -20,9 +20,9 @@ QMusic是基于python + PyQT5 + QML的一款本地音乐播放器，旨在提升
 		mutagen==1.29
 		peewee==2.6.4
 		requests==2.7.0
-		peewee==2.6.4
 		pyquery==1.2.9
 		pycurl==7.19.5.1
+		faulthandler==2.0
 
 + ######安装注意
 	+ 安装pyquery
