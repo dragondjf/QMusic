@@ -131,11 +131,9 @@ class LrcWorker(QObject):
 
     @dthread
     def getLrc(self, artist, title):
-        print(artist, title)
         try:
             if title:
                 lrc_path = self.getLrcPath(artist, title)
-                print("=====", lrc_path, os.path.exists(lrc_path))
                 if lrc_path and os.path.exists(lrc_path):
                     self.lrcFileExisted.emit(lrc_path)
                 else:
