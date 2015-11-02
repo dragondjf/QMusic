@@ -1,0 +1,4 @@
+?package(kwplayer):needs="X11" hints="Audios" \
+                   section="Applications/Audio" \
+                   title="kwplayer" command="/usr/bin/kwplayer" \
+				   icon="/usr/share/icons/hicolor/scalable/apps/kwplayer.svg"
