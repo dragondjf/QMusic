@@ -24,6 +24,7 @@ import os
 import sys
 import traceback
 
+
 def get_parent_dir(filepath, level=1):
     '''
     Get parent directory with given return level.
@@ -33,15 +34,17 @@ def get_parent_dir(filepath, level=1):
     @return: Return parent directory with given return level. 
     '''
     parent_dir = os.path.realpath(filepath)
-    
-    while(level > 0):
+
+    while (level > 0):
         parent_dir = os.path.dirname(parent_dir)
         level -= 1
-    
+
     return parent_dir
+
 
 def get_current_dir(filepath):
     return os.path.dirname(os.path.realpath(filepath))
+
 
 def write_file(filepath, content, mkdir=False):
     '''
@@ -52,10 +55,11 @@ def write_file(filepath, content, mkdir=False):
     '''
     if mkdir:
         touch_file_dir(filepath)
-    
+
     f = open(filepath, "w")
     f.write(content)
     f.close()
+
 
 def read_file(filepath, check_exists=False):
     '''
@@ -74,9 +78,10 @@ def read_file(filepath, check_exists=False):
         r_file = open(filepath, "r")
         content = r_file.read()
         r_file.close()
-        
+
         return content
-    
+
+
 def remove_path(path):
     if os.path.isfile(path):
         remove_file(path)
@@ -84,7 +89,8 @@ def remove_path(path):
         remove_directory(path)
     else:
         print "%s is not directory or file" % path
-    
+
+
 def remove_file(path):
     '''
     Remove file if file exist.
@@ -93,6 +99,7 @@ def remove_file(path):
     '''
     if os.path.exists(path):
         os.remove(path)
+
 
 def create_directory(directory, remove_first=False):
     '''
@@ -103,10 +110,11 @@ def create_directory(directory, remove_first=False):
     '''
     if remove_first and os.path.exists(directory):
         remove_directory(directory)
-    
+
     if not os.path.exists(directory):
         os.makedirs(directory)
-        
+
+
 def remove_directory(path):
     """
     Remove directory recursively, equivalent to command `rm -rf path`.
@@ -120,13 +128,15 @@ def remove_directory(path):
                 remove_directory(full_path)
             else:
                 os.remove(full_path)
-        os.rmdir(path)        
+        os.rmdir(path)
+
 
 def touch_file_dir(filepath):
     # Create directory first.
     dir = os.path.dirname(filepath)
     if not os.path.exists(dir):
         os.makedirs(dir)
+
 
 def touch_file(filepath):
     '''
@@ -138,12 +148,13 @@ def touch_file(filepath):
     '''
     # Create directory first.
     touch_file_dir(filepath)
-        
+
     # Touch file.
     if os.path.exists(filepath):
         os.utime(filepath, None)
     else:
         open(filepath, 'w').close()
+
 
 def read_first_line(filepath, check_exists=False):
     '''
@@ -161,8 +172,9 @@ def read_first_line(filepath, check_exists=False):
         r_file = open(filepath, "r")
         content = r_file.readline().split("\n")[0]
         r_file.close()
-        
+
         return content
+
 
 def eval_file(filepath, check_exists=False):
     '''
@@ -183,13 +195,14 @@ def eval_file(filepath, check_exists=False):
             read_file = open(filepath, "r")
             content = eval(read_file.read())
             read_file.close()
-            
+
             return content
         except Exception, e:
             print "function eval_file got error: %s" % e
             traceback.print_exc(file=sys.stdout)
-            
+
             return None
+
 
 def get_dir_size(dirname):
     '''
@@ -202,8 +215,9 @@ def get_dir_size(dirname):
     for root, dirs, files in os.walk(dirname):
         for filepath in files:
             total_size += os.path.getsize(os.path.join(root, filepath))
-            
+
     return total_size
+
 
 def format_file_size(bytes, precision=2):
     '''
@@ -218,17 +232,17 @@ def format_file_size(bytes, precision=2):
         return '0 B'
     else:
         log = math.floor(math.log(bytes, 1024))
-        quotient = 1024 ** log
+        quotient = 1024**log
         size = bytes / quotient
         remainder = bytes % quotient
-        if remainder < 10 ** (-precision): 
+        if remainder < 10**(-precision):
             prec = 0
         else:
             prec = precision
-        return "%.*f %s" % (prec,
-                            size,
-                            ['B', 'KB', 'MB', 'GB', 'TB','PB', 'EB', 'ZB', 'YB']
-                            [int(log)])
+        return "%.*f %s" % (
+            prec, size,
+            ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][int(log)])
+
 
 def end_with_suffixs(filepath, suffixs):
     '''
@@ -241,5 +255,5 @@ def end_with_suffixs(filepath, suffixs):
     for suffix in suffixs:
         if filepath.endswith(suffix):
             return True
-        
-    return False    
+
+    return False

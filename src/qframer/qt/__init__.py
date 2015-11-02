@@ -56,7 +56,6 @@ import logging
 
 __version__ = '2.5.dev1'
 
-
 #: Qt API environment variable name
 QT_API = 'QT_API'
 #: name of the expected PyQt5 api
@@ -68,7 +67,6 @@ PYSIDE_API = 'pyside'
 
 
 class PythonQtError(Exception):
-
     """
     Error raise if no bindings could be selected
     """
@@ -81,8 +79,7 @@ def setup_apiv2():
     """
     # setup PyQt api to version 2
     if sys.version_info[0] == 2:
-        logging.getLogger(__name__).debug(
-            'setting up SIP API to version 2')
+        logging.getLogger(__name__).debug('setting up SIP API to version 2')
         import sip
         try:
             sip.setapi("QString", 2)
@@ -108,8 +105,8 @@ def autodetect():
         import PyQt5
         os.environ[QT_API] = PYQT5_API
         from PyQt5 import QtCore
-        QtCore.QCoreApplication.setLibraryPaths([os.sep.join([sys.prefix,
-                                                              'Lib', 'site-packages', 'PyQt5', 'plugins'])])
+        QtCore.QCoreApplication.setLibraryPaths([os.sep.join(
+            [sys.prefix, 'Lib', 'site-packages', 'PyQt5', 'plugins'])])
         logging.getLogger(__name__).debug('imported PyQt5')
     except ImportError:
         try:
@@ -149,13 +146,11 @@ if QT_API in os.environ:
             logging.getLogger(__name__).debug('imported PySide')
     except ImportError:
         logging.getLogger(__name__).warning(
-            'failed to import the selected QT_API: %s',
-            os.environ[QT_API])
+            'failed to import the selected QT_API: %s', os.environ[QT_API])
         # use the auto-detected API if possible
         autodetect()
 else:
     # user did not select a qt api, let's perform auto-detection
     autodetect()
-
 
 logging.getLogger(__name__).info('using %s' % os.environ[QT_API])

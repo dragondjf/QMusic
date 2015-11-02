@@ -120,8 +120,8 @@ class FFloatWidget(FMoveableWidget):
     def __init__(self, parent=None):
         super(FFloatWidget, self).__init__()
         self.parent = parent
-        self.setWindowFlags(
-            Qt.WindowType_Mask | Qt.SubWindow | Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.WindowType_Mask | Qt.SubWindow |
+                            Qt.FramelessWindowHint)
 
         self._initShowAnimation()
         self._initHideAnimation()
@@ -149,8 +149,8 @@ class FFloatWidget(FMoveableWidget):
         mainwindow = self.parent
         startRect = QRect(mainwindow.x() + mainwindow.width(),
                           mainwindow.y() + mainwindow.titleBar().height(),
-                          self.w, mainwindow.height() -
-                          mainwindow.titleBar().height())
+                          self.w,
+                          mainwindow.height() - mainwindow.titleBar().height())
         return startRect
 
     @property
@@ -158,8 +158,8 @@ class FFloatWidget(FMoveableWidget):
         mainwindow = self.parent
         endRect = QRect(mainwindow.x() + mainwindow.width(),
                         mainwindow.y() + mainwindow.titleBar().height(),
-                        self.w, mainwindow.height() -
-                        mainwindow.titleBar().height())
+                        self.w,
+                        mainwindow.height() - mainwindow.titleBar().height())
         return endRect
 
     @property
@@ -194,13 +194,12 @@ class FFloatWidget(FMoveableWidget):
 
     def setFlags(self, flag):
         if flag:
-            self.setWindowFlags(
-                Qt.WindowType_Mask | Qt.SubWindow |
-                Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+            self.setWindowFlags(Qt.WindowType_Mask | Qt.SubWindow |
+                                Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
             self.show()
         else:
-            self.setWindowFlags(
-                Qt.WindowType_Mask | Qt.SubWindow | Qt.FramelessWindowHint)
+            self.setWindowFlags(Qt.WindowType_Mask | Qt.SubWindow |
+                                Qt.FramelessWindowHint)
             self.show()
 
     def mouseMoveEvent(self, event):

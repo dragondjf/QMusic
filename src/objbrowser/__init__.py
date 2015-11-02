@@ -13,20 +13,21 @@ __version__ = PROGRAM_VERSION
 
 logger = logging.getLogger(__name__)
 
-def logging_basic_config(level = 'INFO'):
+
+def logging_basic_config(level='INFO'):
     """ Setup basic config logging. Useful for debugging to quickly setup a useful logger"""
     fmt = '%(filename)25s:%(lineno)-4d : %(levelname)-7s: %(message)s'
     logging.basicConfig(level=level, format=fmt)
-    
-    
-def check_class(obj, target_class, allow_none = False):
+
+
+def check_class(obj, target_class, allow_none=False):
     """ Checks that the  obj is a (sub)type of target_class. 
         Raises a TypeError if this is not the case.
     """
     if not isinstance(obj, target_class):
         if not (allow_none and obj is None):
             raise TypeError("obj must be a of type {}, got: {}"
-                            .format(target_class, type(obj)))    
+                            .format(target_class, type(obj)))
 
 
 def get_qapplication_instance():
@@ -48,11 +49,11 @@ def create_object_browser(*args, **kwargs):
     object_browser = ObjectBrowser(*args, **kwargs)
     object_browser.show()
     return object_browser
-        
-        
+
+
 def execute():
     """ Executes all created object browser by starting the Qt main application
-    """  
+    """
     logger.info("Starting the Object browser(s)...")
     app = get_qapplication_instance()
     exit_code = app.exec_()

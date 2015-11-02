@@ -2,7 +2,7 @@
 """
 import os
 
-DEBUGGING = False # TODO: False
+DEBUGGING = False  # TODO: False
 
 PROGRAM_NAME = 'objbrowser'
 PROGRAM_VERSION = '1.0.0'

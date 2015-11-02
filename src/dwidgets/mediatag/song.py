@@ -12,9 +12,9 @@ import mutagen
 from log import logger
 
 TAG_KEYS = {
-    'title' : 'title',
+    'title': 'title',
     'artist': 'artist',
-    'album' : 'album',
+    'album': 'album',
     'tracknumber': 'tracknumber',
     'discnumber': 'discnumber',
     'genre': 'genre',
@@ -47,9 +47,7 @@ TAGS_KEYS_OVERRIDE['ASF'] = {
 }
 
 
-
 class Song(dict):
-
     """docstring for Song"""
 
     def __init__(self, url):
@@ -155,13 +153,14 @@ class Song(dict):
                 for file_tag, tag in TAG_KEYS.iteritems():
                     if tag_keys_override and tag_keys_override.has_key(file_tag):
                         file_tag = tag_keys_override[file_tag]
-                    if self.get(tag):    
+                    if self.get(tag):
                         try:
                             if audio.__class__.__name__ == "MP4" and tag == "tracknumber":
                                 _value = self.get(tag)
                                 _vtuple = _value.split(',')
                                 if len(_vtuple) == 2:
-                                    value = [(int(_vtuple[0][1:].strip()), int(_vtuple[1][:-1].strip()))]
+                                    value = [(int(_vtuple[0][1:].strip()),
+                                              int(_vtuple[1][:-1].strip()))]
                                 else:
                                     value = self.get(tag)
                             else:
@@ -171,7 +170,7 @@ class Song(dict):
                         audio[file_tag] = value
                     else:
                         try:
-                            del(audio[file_tag]) # TEST
+                            del (audio[file_tag])  # TEST
                         except KeyError:
                             pass
                 audio.save()
@@ -180,7 +179,8 @@ class Song(dict):
 
         except Exception, e:
             logger.error(traceback.format_exc())
-            logger.error("W: Error while writting (" + self.get("url") + ")Tracback :" + e)
+            logger.error("W: Error while writting (" + self.get("url") +
+                         ")Tracback :" + e)
             self.last_error = "Error while writting" + \
                 ": " + self.url
             return False
@@ -218,7 +218,7 @@ class Song(dict):
         elif key in ['title', 'artist', 'album']:
             if not value:
                 value = 'unknown'
-        if value is None:        
+        if value is None:
             if key in self:
                 super(Song, self).__delitem__(key)
         else:
@@ -263,7 +263,8 @@ class Song(dict):
         for key in keys:
             if self.has_key(key) and isinstance(self[key], unicode):
                 p[key] = self[key].encode('utf-8')
-        ret = ''.join(['%s: %s' % (key, p[key]) for key in keys if self.has_key(key)])
+        ret = ''.join(['%s: %s' % (key, p[key])
+                       for key in keys if self.has_key(key)])
         return ret
 
 

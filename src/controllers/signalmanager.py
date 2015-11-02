@@ -1,11 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, 
-    pyqtProperty, QUrl)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty, QUrl)
 from .utils import registerContext, contexts
 
 
@@ -33,7 +31,7 @@ class SignalManager(QObject):
     # add online song to favorite playlist by songId
     addToFavoriteByIdSignal = pyqtSignal(int)
 
-    # remove online song from playlist by songId 
+    # remove online song from playlist by songId
     removeFromFavoriteByIdSignal = pyqtSignal(int)
 
     #添加我的收藏
@@ -49,7 +47,7 @@ class SignalManager(QObject):
     # 在线音乐对象切换本地音乐对象
     switchOnlinetoLocal = pyqtSignal('QString', 'QString')
 
-    #download song  
+    #download song
     addLocalSongToDataBase = pyqtSignal('QString')
     addLocalSongsToDataBase = pyqtSignal(list)
 

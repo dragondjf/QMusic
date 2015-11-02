@@ -70,13 +70,13 @@ class QSingleApplication(QApplication):
         self._activationWindow.raise_()
         self._activationWindow.activateWindow()
 
-    def sendMessage(self, msg,  msecs=5000):
+    def sendMessage(self, msg, msecs=5000):
         if not self._outStream:
             return False
         self._outStream << msg << ''
         if not self._outSocket.waitForBytesWritten(msecs):
-            raise RuntimeError(
-                "Bytes not written within %ss" % (msecs / 1000.))
+            raise RuntimeError("Bytes not written within %ss" %
+                               (msecs / 1000.))
 
     def _onNewConnection(self):
         if self._inSocket:

@@ -20,7 +20,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import mutagen.id3
 from mutagen import Metadata
 from mutagen._util import DictMixin
@@ -55,7 +54,7 @@ class EasyID3(DictMixin, Metadata):
         "artist": "TPE1",
         "tracknumber": "TRCK",
         "discnumber": "TPOS"
-        }
+    }
     """Valid keys for EasyID3 instances."""
 
     def __init__(self, filename=None):
@@ -71,19 +70,24 @@ class EasyID3(DictMixin, Metadata):
 
     _size = property(lambda s: s._id3.size,
                      lambda s, fn: setattr(s.__id3, '_size', fn))
-
     """ Correct latin 1 string for borken mp3 tag"""
-    def __distrust_latin1(self,text, encoding=0):
+
+    def __distrust_latin1(self, text, encoding=0):
         assert isinstance(text, unicode)
         if encoding == 0:
             text = text.encode('iso-8859-1')
-            for codec in ["gbk", "big5", 'utf-8','iso-8859-1','iso-8559-15','cp1251']:
-                try: text = text.decode(codec)
-                except (UnicodeError, LookupError): pass
-                else:break
-            else: return None
+            for codec in ["gbk", "big5", 'utf-8', 'iso-8859-1', 'iso-8559-15',
+                          'cp1251']:
+                try:
+                    text = text.decode(codec)
+                except (UnicodeError, LookupError):
+                    pass
+                else:
+                    break
+            else:
+                return None
         return text
-    
+
     def __TCON_get(self, frame):
         return frame.genres
 
@@ -100,9 +104,10 @@ class EasyID3(DictMixin, Metadata):
         self.__id3.add(mutagen.id3.TDRC(encoding=3, text=value))
 
     def __text_get(self, frame):
-        modified_frame = list([self.__distrust_latin1(item,frame.encoding) for item in list(frame)])
+        modified_frame = list([self.__distrust_latin1(item, frame.encoding)
+                               for item in list(frame)])
         return modified_frame
-    
+
     def __text_set(self, frame, value):
         frame.encoding = 3
         if not isinstance(value, list):
@@ -115,7 +120,8 @@ class EasyID3(DictMixin, Metadata):
             frame = self.valid_keys[key]
             getter = self.__mungers.get(frame, self.__default)[0]
             return getter(self, self.__id3[frame])
-        else: raise ValueError("%r is not a valid key" % key)
+        else:
+            raise ValueError("%r is not a valid key" % key)
 
     def __setitem__(self, key, value):
         key = key.lower()
@@ -127,13 +133,15 @@ class EasyID3(DictMixin, Metadata):
                 self.__id3.loaded_frame(frame)
             else:
                 setter(self, self.__id3[frame], value)
-        else: raise ValueError("%r is not a valid key" % key)
+        else:
+            raise ValueError("%r is not a valid key" % key)
 
     def __delitem__(self, key):
         key = key.lower()
         if key in self.valid_keys:
-            del(self.__id3[self.valid_keys[key]])
-        else: raise ValueError("%r is not a valid key" % key)
+            del (self.__id3[self.valid_keys[key]])
+        else:
+            raise ValueError("%r is not a valid key" % key)
 
     def keys(self):
         return [k for (k, v) in self.valid_keys.items() if v in self.__id3]
@@ -153,17 +161,18 @@ class EasyID3(DictMixin, Metadata):
     __mungers = {
         "TCON": (__TCON_get, __TCON_set),
         "TDRC": (__TDRC_get, __TDRC_set),
-        }
+    }
 
     __default = (__text_get, __text_set)
+
 
 Open = EasyID3
 
 
 class EasyMP3(MP3):
     def __init__(self, filename=None):
-        super(EasyMP3,self).__init__(filename, ID3=EasyID3)
-        
+        super(EasyMP3, self).__init__(filename, ID3=EasyID3)
+
     def add_tags(self):
         if self.tags is None:
             self.tags = EasyID3()

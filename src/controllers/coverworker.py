@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
 import copy
@@ -18,7 +17,6 @@ from deepin_utils.file import get_parent_dir
 
 
 class Cover360Runnable(QRunnable):
-
     def __init__(self, worker, artist, title, url):
         super(Cover360Runnable, self).__init__()
         self.worker = worker
@@ -32,13 +30,13 @@ class Cover360Runnable(QRunnable):
             r = requests.get(self.url)
             with open(localUrl, "wb") as f:
                 f.write(r.content)
-            self.worker.download360SongCoverSuccessed.emit(self.artist, self.title, localUrl)
+            self.worker.download360SongCoverSuccessed.emit(
+                self.artist, self.title, localUrl)
         except Exception, e:
             logger.error(e)
 
 
 class AlbumCover360Runnable(QRunnable):
-
     def __init__(self, worker, artist, title, url, medias):
         super(AlbumCover360Runnable, self).__init__()
         self.worker = worker
@@ -54,7 +52,8 @@ class AlbumCover360Runnable(QRunnable):
                     artist = media['singerName']
                     title = media['songName']
                     localUrl = CoverWorker.onlineSongCoverPath(artist, title)
-                    self.worker.download360SongCoverSuccessed.emit(artist, title, localUrl)
+                    self.worker.download360SongCoverSuccessed.emit(
+                        artist, title, localUrl)
                 return
             r = requests.get(self.url)
             for media in self.medias:
@@ -63,7 +62,8 @@ class AlbumCover360Runnable(QRunnable):
                 localUrl = CoverWorker.onlineSongCoverPath(artist, title)
                 with open(localUrl, "wb") as f:
                     f.write(r.content)
-                self.worker.download360SongCoverSuccessed.emit(self.artist, self.title, localUrl)
+                self.worker.download360SongCoverSuccessed.emit(
+                    self.artist, self.title, localUrl)
         except Exception, e:
             logger.error(e)
 
@@ -71,7 +71,6 @@ class AlbumCover360Runnable(QRunnable):
 class CoverWorker(QObject):
 
     __contextName__ = "CoverWorker"
-
 
     downloadArtistCoverSuccessed = pyqtSignal('QString', 'QString')
     downloadAlbumCoverSuccessed = pyqtSignal('QString', 'QString', 'QString')
@@ -81,10 +80,14 @@ class CoverWorker(QObject):
     updateAlbumCover = pyqtSignal('QString', 'QString', 'QString')
     updateOnlineSongCover = pyqtSignal('QString', 'QString', 'QString')
 
-    defaultArtistCover = os.path.join(get_parent_dir(__file__, 2), 'skin', 'images','bg1.jpg')
-    defaultAlbumCover = os.path.join(get_parent_dir(__file__, 2), 'skin', 'images','bg1.jpg')
-    defaultSongCover = os.path.join(get_parent_dir(__file__, 2), 'skin', 'images','bg1.jpg')
-    defaultFolderCover = os.path.join(get_parent_dir(__file__, 2), 'skin', 'images','folder-music.svg')
+    defaultArtistCover = os.path.join(
+        get_parent_dir(__file__, 2), 'skin', 'images', 'bg1.jpg')
+    defaultAlbumCover = os.path.join(
+        get_parent_dir(__file__, 2), 'skin', 'images', 'bg1.jpg')
+    defaultSongCover = os.path.join(
+        get_parent_dir(__file__, 2), 'skin', 'images', 'bg1.jpg')
+    defaultFolderCover = os.path.join(
+        get_parent_dir(__file__, 2), 'skin', 'images', 'folder-music.svg')
 
     albumCoverThreadPool = QThreadPool()
 
@@ -117,7 +120,7 @@ class CoverWorker(QObject):
             pass
 
     def cacheArtistCover(self, artist, url):
-        self.artistCovers[artist]  = url
+        self.artistCovers[artist] = url
         self.updateArtistCover.emit(artist, url)
 
     def cacheAlbumCover(self, artist, album, url):
@@ -275,6 +278,7 @@ class CoverWorker(QObject):
     def albumCoverPath(cls, artist, album):
         filepath = os.path.join(AlbumCoverPath, '%s-%s' % (artist, album))
         return filepath
+
     @classmethod
     def isAlbumCoverExisted(cls, artist, album):
         return os.path.exists(cls.albumCoverPath(artist, album))

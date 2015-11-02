@@ -18,7 +18,8 @@ class UrlinputDialog(BaseDialog):
         self.urlwidget = QWidget()
         url_mainlayout = QGridLayout()
         self.urlLabel = QLabel(u'请输入需要访问的url:')
-        self.urlLineEdit = QLineEdit(u'http://192.168.10.135:8000/webs/protection_areas/list')
+        self.urlLineEdit = QLineEdit(
+            u'http://192.168.10.135:8000/webs/protection_areas/list')
         url_mainlayout.addWidget(self.urlLabel, 0, 0)
         url_mainlayout.addWidget(self.urlLineEdit, 1, 0)
         self.urlwidget.setLayout(url_mainlayout)

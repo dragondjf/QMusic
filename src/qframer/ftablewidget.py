@@ -6,7 +6,6 @@ from .qt.QtGui import *
 
 
 class FDragRowsTableWidget(QTableWidget):
-
     def __init__(self, rows=0, cloumns=2, parent=None):
         super(FDragRowsTableWidget, self).__init__(rows, cloumns, parent)
         self.parent = parent
@@ -72,7 +71,7 @@ class FDragRowsTableWidget(QTableWidget):
 
                 # Why does this NOT need to be here?
                 # for row in reversed(selRows):
-                    # self.removeRow(row)
+                # self.removeRow(row)
 
                 event.accept()
 
@@ -154,14 +153,13 @@ class FDragRowsTableWidget(QTableWidget):
 
         if r == QAbstractItemView.OnItem and \
                 not (self.model().flags(index) & Qt.ItemIsDropEnabled):
-            r = QAbstractItemView.AboveItem if pos.y() < rect.center(
-            ).y() else QAbstractItemView.BelowItem
+            r = QAbstractItemView.AboveItem if pos.y() < rect.center().y(
+            ) else QAbstractItemView.BelowItem
 
         return r
 
 
 class FDetailShow(QTextEdit):
-
     def __init__(self, jsondata, parent=None):
         super(FDetailShow, self).__init__(parent)
         self.parent = parent
@@ -178,7 +176,6 @@ class FDetailShow(QTextEdit):
 
 
 class FTableItemDetailWidget(QFrame):
-
     def __init__(self, jsondata, row, column, parent=None):
         super(FTableItemDetailWidget, self).__init__(parent)
         self.parent = parent

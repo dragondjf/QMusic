@@ -1,11 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, 
-    pyqtProperty, QUrl)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty, QUrl)
 from PyQt5.QtGui import QCursor, QDesktopServices
 from .utils import registerContext, duration_to_string
 

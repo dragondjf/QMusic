@@ -2,45 +2,45 @@
 # -*- coding: utf-8 -*-
 
 import os
-from PyQt5.QtCore import (QObject, pyqtSignal,
-                pyqtSlot, pyqtProperty, QVariant)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty,
+                          QVariant)
 from PyQt5.QtQml import QJSValue, qmlRegisterType
 from .qmodel import ModelMetaclass
 
 # class ListModel(QAbstractListModel):
 
-    # def __init__(self, fields, parent=None):
-    #     super(ListModel, self).__init__(parent)
-    #     self._roles = {}
-    #     for i in fields:
-    #         index = fields.index(i)
-    #         role = '%sRole' % i[0]
-    #         setattr(self, role, Qt.UserRole + index + 1)
-    #         self._roles[getattr(self, role)] = i[0]
-    #     self._items = []
+# def __init__(self, fields, parent=None):
+#     super(ListModel, self).__init__(parent)
+#     self._roles = {}
+#     for i in fields:
+#         index = fields.index(i)
+#         role = '%sRole' % i[0]
+#         setattr(self, role, Qt.UserRole + index + 1)
+#         self._roles[getattr(self, role)] = i[0]
+#     self._items = []
 
-    # def addItem(self, item):
-    #     self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
-    #     self._items.append(item)
-    #     self.endInsertRows()
+# def addItem(self, item):
+#     self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
+#     self._items.append(item)
+#     self.endInsertRows()
 
-    # def rowCount(self, parent=QModelIndex()):
-    #     return len(self._items)
+# def rowCount(self, parent=QModelIndex()):
+#     return len(self._items)
 
-    # def data(self, index, role=Qt.DisplayRole):
-    #     try:
-    #         item = self._items[index.row()]
-    #     except IndexError:
-    #         return QVariant()
+# def data(self, index, role=Qt.DisplayRole):
+#     try:
+#         item = self._items[index.row()]
+#     except IndexError:
+#         return QVariant()
 
-    #     for key, value in self._roles.items():
-    #         if role == key:
-    #             return getattr(item, value)
+#     for key, value in self._roles.items():
+#         if role == key:
+#             return getattr(item, value)
 
-    #     return QVariant()
+#     return QVariant()
 
-    # def roleNames(self):
-    #     # return self._roles
+# def roleNames(self):
+#     # return self._roles
 
 
 class DListModel(QObject):
@@ -65,7 +65,6 @@ class DListModel(QObject):
     py2qml_removeSignal = pyqtSignal(int)
     py2qml_setSignal = pyqtSignal(int, 'QVariant')
     py2qml_setPropertySignal = pyqtSignal(int, 'QString', 'QVariant')
-    
 
     def __init__(self, dataTye):
         super(DListModel, self).__init__()

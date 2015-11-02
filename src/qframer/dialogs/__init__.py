@@ -16,6 +16,7 @@ from .settingsdialog import settingsinput
 
 __version__ = '0.1.0'
 
-__all__ = ['DynamicTextWidget', 'ConfirmDialog', 'MessageDialog', 'login', 'exit', 'msg', 'ipaddressinput', 'urlinput', 'numinput', 'confirm']
+__all__ = ['DynamicTextWidget', 'ConfirmDialog', 'MessageDialog', 'login',
+           'exit', 'msg', 'ipaddressinput', 'urlinput', 'numinput', 'confirm']
 
 __author__ = 'dragondjf(dragondjf@gmail.com)'

@@ -23,6 +23,7 @@ import subprocess
 import sys
 import traceback
 
+
 def kill_process(proc):
     '''
     Kill process.
@@ -36,6 +37,7 @@ def kill_process(proc):
         print "function kill_process got error: %s" % (e)
         traceback.print_exc(file=sys.stdout)
 
+
 def get_command_output_first_line(commands, in_shell=False):
     '''
     Run command and return first line of output.
@@ -43,9 +45,12 @@ def get_command_output_first_line(commands, in_shell=False):
     @param commands: Input commands.
     @return: Return first line of command output.
     '''
-    process = subprocess.Popen(commands, stdout=subprocess.PIPE, shell=in_shell)
+    process = subprocess.Popen(commands,
+                               stdout=subprocess.PIPE,
+                               shell=in_shell)
     process.wait()
     return process.stdout.readline()
+
 
 def get_command_output(commands, in_shell=False):
     '''
@@ -54,9 +59,12 @@ def get_command_output(commands, in_shell=False):
     @param commands: Input commands.
     @return: Return command output.
     '''
-    process = subprocess.Popen(commands, stdout=subprocess.PIPE, shell=in_shell)
+    process = subprocess.Popen(commands,
+                               stdout=subprocess.PIPE,
+                               shell=in_shell)
     process.wait()
     return process.stdout.readlines()
+
 
 def run_command(command):
     '''

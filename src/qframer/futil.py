@@ -10,13 +10,13 @@ views = {}
 
 
 def collectView(func):
-
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         self = args[0]
         if hasattr(self, 'viewID'):
             views.update({self.viewID: self})
         func(*args, **kwargs)
+
     return wrapper
 
 

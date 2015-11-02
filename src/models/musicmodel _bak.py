@@ -16,8 +16,6 @@ from PyQt5.QtCore import QDir, QUrl
 import chardet
 import copy
 
-
-
 try:
     from config.constants import MusicDBFile
 except:
@@ -32,7 +30,7 @@ class BaseModel(Model):
 
     @classmethod
     @db.atomic()
-    def getRecord(cls,  **kwargs):
+    def getRecord(cls, **kwargs):
         key = getattr(cls, '__key__')
         assert key in kwargs
         try:
@@ -54,7 +52,8 @@ class BaseModel(Model):
     def updateRecord(cls, **kwargs):
         key = getattr(cls, '__key__')
         assert key in kwargs
-        retId = cls.update(**kwargs).where(getattr(cls, key) == kwargs[key]).execute()
+        retId = cls.update(
+            **kwargs).where(getattr(cls, key) == kwargs[key]).execute()
         if retId != 0:
             return True
         else:
@@ -71,7 +70,6 @@ class BaseModel(Model):
             ret = None
         return ret
 
-
     @classmethod
     @db.atomic()
     def get_create_Record(cls, **kwargs):
@@ -81,9 +79,10 @@ class BaseModel(Model):
             ret = cls.create(**kwargs)
         except IntegrityError:
             # print('%s is already in use' % kwargs['url'])
-            retId = cls.update(**kwargs).where(getattr(cls, key) == kwargs[key]).execute()
+            retId = cls.update(
+                **kwargs).where(getattr(cls, key) == kwargs[key]).execute()
             if retId != 0:
-                ret = cls.get(cls.id==retId)
+                ret = cls.get(cls.id == retId)
             else:
                 ret = None
         return ret
@@ -97,7 +96,8 @@ class BaseModel(Model):
                 try:
                     ret = cls.create(**record)
                 except IntegrityError:
-                    cls.update(**record).where(getattr(cls, key) == record[key]).execute()
+                    cls.update(
+                        **record).where(getattr(cls, key) == record[key]).execute()
 
 
 class Artist(BaseModel):
@@ -125,7 +125,7 @@ class Folder(BaseModel):
     created_date = DateTimeField(default=datetime.datetime.now)
 
     __key__ = 'name'
-    
+
 
 class Playlist(BaseModel):
     name = CharField(default='', unique=True)
@@ -158,7 +158,6 @@ class Song(BaseModel):
     discnumber = IntegerField(default=0)
     genre = CharField(default='')
     date = CharField(default='')
-
 
     # subTitle = CharField(default='')
     # comment = CharField(default='')
@@ -203,14 +202,8 @@ class Song(BaseModel):
 
     __key__ = 'url'
 
-
     TAG_KEYS = [
-        'title',
-        'artist',
-        'album',
-        'tracknumber',
-        'discnumber',
-        'genre',
+        'title', 'artist', 'album', 'tracknumber', 'discnumber', 'genre',
         'date'
     ]
 
@@ -363,7 +356,7 @@ class Song(BaseModel):
                         audio[file_tag] = value
                     else:
                         try:
-                            del(audio[file_tag])  # TEST
+                            del (audio[file_tag])  # TEST
                         except KeyError:
                             pass
                 audio.save()
@@ -413,11 +406,12 @@ class Song(BaseModel):
         p = {}
         for key in keys:
             if hasattr(self, key):
-                if isinstance(getattr(self, key) , unicode):
+                if isinstance(getattr(self, key), unicode):
                     p[key] = getattr(self, key).encode('utf-8')
                 else:
                     p[key] = getattr(self, key)
-        ret = ''.join(['%s: %s' % (key, p[key]) for key in keys if p.has_key(key)])
+        ret = ''.join(['%s: %s' % (key, p[key]) for key in keys
+                       if p.has_key(key)])
         return ret
 
     def toDict(self):
@@ -452,19 +446,14 @@ class SongPlaylist(BaseModel):
     @classmethod
     def addSongToPlaylist(cls, url, name='temporary'):
 
-
         songRecord = Song.getSongByUri(url)
         playlistRecord = Playlist.getPlaylistByName(name)
 
-
         if songRecord and playlistRecord:
-            kwargs = {
-                'song': songRecord, 
-                'playlist': playlistRecord
-            }
+            kwargs = {'song': songRecord, 'playlist': playlistRecord}
             try:
-                ret = cls.get(cls.song==songRecord, 
-                    cls.playlist==playlistRecord)
+                ret = cls.get(cls.song == songRecord,
+                              cls.playlist == playlistRecord)
                 if ret:
                     # print('cls existed, Emit Singal')
                     pass
@@ -478,7 +467,8 @@ class SongPlaylist(BaseModel):
     @classmethod
     def getSongsByPlaylistName(cls, name):
         songs = []
-        for song in Song.select().join(cls).join(Playlist).where(Playlist.name==name):
+        for song in Song.select().join(cls).join(Playlist).where(Playlist.name
+                                                                 == name):
             songs.append(song.url)
 
         return songs
@@ -486,7 +476,8 @@ class SongPlaylist(BaseModel):
     @classmethod
     def getPlaylistsBySongUri(cls, url):
         playlists = []
-        for playlist in Playlist.select().join(cls).join(Song).where(Song.url==url):
+        for playlist in Playlist.select().join(cls).join(Song).where(Song.url
+                                                                     == url):
             playlists.append(playlist.name)
         return playlists
 
@@ -494,14 +485,14 @@ class SongPlaylist(BaseModel):
 if __name__ == '__main__':
 
     class DBWorker(object):
-
         def __init__(self):
             super(DBWorker, self).__init__()
             db.connect()
-            db.create_tables([Song, Artist, Album, Folder, Playlist, SongPlaylist], safe=True)
+            db.create_tables(
+                [Song, Artist, Album, Folder, Playlist, SongPlaylist],
+                safe=True)
 
     dbWorker = DBWorker()
-
 
     # basePath = '/home/djf/workspace/github/musicplayer-qml/music'
     # url = os.path.join(basePath, '1.mp3')
@@ -514,12 +505,10 @@ if __name__ == '__main__':
     # print song
     # song = Song.createLocalInstanceByUrl(url)
     # print song
-    
 
     artists = []
     for i in range(1000):
         artists.append({'name': 'val1-%s' % i})
-
 
     with db.transaction():
         # a = Song.insert(**{'url': '111'})
@@ -530,7 +519,7 @@ if __name__ == '__main__':
         # Artist.insert_many(artists).execute()
 
         for idx in range(0, len(artists), 500):
-            Artist.insert_many(artists[idx:idx+500]).execute()
+            Artist.insert_many(artists[idx:idx + 500]).execute()
 
     # con = sqlite3.connect('existing_db.db')
     # with open('dump.sql', 'w') as f:

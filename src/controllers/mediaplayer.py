@@ -1,12 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
 import time
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot,
-                          pyqtProperty, QUrl, QDate)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty, QUrl,
+                          QDate)
 from PyQt5.QtGui import QCursor
 from .utils import registerContext, contexts
 from .utils import duration_to_string
@@ -19,10 +18,10 @@ from .signalmanager import signalManager
 
 
 class PlayerBin(QMediaPlayer):
-
     def __init__(self):
         super(PlayerBin, self).__init__()
         self.setNotifyInterval(50)
+
 
 gPlayer = PlayerBin()
 
@@ -71,7 +70,6 @@ class MediaPlayer(QObject):
 
         self._state = 0
         self._isPlaying = False
-
 
         self._playbackMode = 4
         self._volume = 0
@@ -124,14 +122,15 @@ class MediaPlayer(QObject):
 
     def updateLrc(self, pos):
         from app.deepinplayer import DeepinPlayer
-        if DeepinPlayer.instance().lrcWindowManager.isVisible and self._isLyricUpdated:
+        if DeepinPlayer.instance(
+        ).lrcWindowManager.isVisible and self._isLyricUpdated:
             signalManager.lrcPositionChanged.emit(pos, self.duration)
 
     def stopUpdateLyric(self):
         self._isLyricUpdated = False
 
     def startUpdateLyric(self):
-         self._isLyricUpdated = True
+        self._isLyricUpdated = True
 
     @pyqtProperty('QString', notify=urlChanged)
     def url(self):
@@ -300,10 +299,13 @@ class MediaPlayer(QObject):
         errors = {
             0: "No error has occurred.",
             1: "A media resource couldn't be resolved",
-            2: "The format of a media resource isn't (fully) supported. Playback may still be possible, but without an audio or video component",
+            2:
+            "The format of a media resource isn't (fully) supported. Playback may still be possible, but without an audio or video component",
             3: "A network error occurred",
-            4: "There are not the appropriate permissions to play a media resource",
-            5: "A valid playback service was not found, playback cannot proceed."
+            4:
+            "There are not the appropriate permissions to play a media resource",
+            5:
+            "A valid playback service was not found, playback cannot proceed."
         }
         print(error, errors[error])
         if error == 3:
@@ -378,7 +380,7 @@ class MediaPlayer(QObject):
             currentIndex = self._playlist.currentIndex()
             if self._playlist.playbackMode() == 1:
                 count = self._playlist.mediaCount()
-                
+
                 if currentIndex == count - 1:
                     index = 0
                 else:
@@ -529,11 +531,14 @@ class MediaPlayer(QObject):
 
     def getCover(self):
         if CoverWorker.isSongCoverExisted(self.artist, self.title):
-            _cover = CoverWorker.getCoverPathByArtistSong(self.artist, self.title)
+            _cover = CoverWorker.getCoverPathByArtistSong(self.artist,
+                                                          self.title)
         elif CoverWorker.isOnlineSongCoverExisted(self.artist, self.title):
-            _cover = CoverWorker.getOnlineCoverPathByArtistSong(self.artist, self.title)
+            _cover = CoverWorker.getOnlineCoverPathByArtistSong(self.artist,
+                                                                self.title)
         elif CoverWorker.isAlbumCoverExisted(self.artist, self.album):
-            _cover = CoverWorker.getCoverPathByArtistAlbum(self.artist, self.album)
+            _cover = CoverWorker.getCoverPathByArtistAlbum(self.artist,
+                                                           self.album)
         else:
             _cover = CoverWorker.getCoverPathByArtist(self.artist)
         return _cover
@@ -551,9 +556,8 @@ class MediaPlayer(QObject):
                 v = v.toString('yyyy.MM.dd')
             metaData.update({key: v})
         logger.info(metaData)
-        path = os.sep.join(
-            [os.path.dirname(os.getcwd()), 'music',
-             '%s.json' % self.metaData('Title')])
+        path = os.sep.join([os.path.dirname(os.getcwd()), 'music', '%s.json' %
+                            self.metaData('Title')])
         f = open(path, 'w')
         f.write(json.dumps(metaData, indent=4))
         f.close()

@@ -22,7 +22,8 @@
 import time
 import traceback
 import sys
-from contextlib import contextmanager 
+from contextlib import contextmanager
+
 
 def get_current_time(time_format="%Y-%m-%d %H:%M:%S"):
     '''
@@ -32,6 +33,7 @@ def get_current_time(time_format="%Y-%m-%d %H:%M:%S"):
     @return: Return current time with given time format.
     '''
     return time.strftime(time_format, time.localtime())
+
 
 def print_exec_time(func):
     '''
@@ -45,12 +47,15 @@ def print_exec_time(func):
     >>> def function_to_test():
     >>>     ...
     '''
+
     def wrap(*a, **kw):
         start_time = time.time()
         ret = func(*a, **kw)
         print "%s time: %s" % (str(func), time.time() - start_time)
         return ret
+
     return wrap
+
 
 @contextmanager
 def exec_time():
@@ -64,11 +69,10 @@ def exec_time():
     >>>     # ...
     '''
     start_time = time.time()
-    try:  
-        yield  
-    except Exception, e:  
-        print 'function exec_time got error %s' % e  
+    try:
+        yield
+    except Exception, e:
+        print 'function exec_time got error %s' % e
         traceback.print_exc(file=sys.stdout)
-    else:  
+    else:
         print "time: %f" % (time.time() - start_time)
-

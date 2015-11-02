@@ -1,5 +1,3 @@
-
-    
 # Needed because boolean QSettings in Pyside are converted incorrect the second
 # time in Windows (and Linux?) because of a bug in Qt. See:
 # https://www.mail-archive.com/pyside@lists.pyside.org/msg00230.html
@@ -16,5 +14,3 @@ def setting_str_to_bool(s):
             return ValueError('Invalid boolean representation: {!r}'.format(s))
     else:
         return s
-
-    

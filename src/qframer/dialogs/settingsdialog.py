@@ -60,9 +60,7 @@ class SettingsDialog(BaseDialog):
         self.layout().addSpacing(10)
 
     def enter(self):
-        self.data = {
-            "enable": self.startCheckBox.isChecked()
-        }
+        self.data = {"enable": self.startCheckBox.isChecked()}
         self.accept()  # 关闭对话框并返回1
 
 

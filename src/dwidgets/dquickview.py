@@ -8,7 +8,7 @@ from PyQt5 import QtGui
 from PyQt5 import QtQuick
 from PyQt5 import QtQml
 from PyQt5.QtCore import qVersion, pyqtSlot, pyqtSignal, QPointF, Qt
-from PyQt5.QtGui import QCursor, QSurfaceFormat, QColor, QPainter, QPixmap,QBitmap, QRegion, QBrush
+from PyQt5.QtGui import QCursor, QSurfaceFormat, QColor, QPainter, QPixmap, QBitmap, QRegion, QBrush
 from deepin_utils.file import get_parent_dir
 
 if '5.3' in qVersion():
@@ -18,13 +18,13 @@ else:
 
 
 class DQuickView(QtQuick.QQuickView):
-
     """The DQuickView init webengine in PyQt5"""
 
     def __init__(self, engine=None, parent=None):
         super(DQuickView, self).__init__(engine, parent)
         self.setResizeMode(QtQuick.QQuickView.SizeViewToRootObject)
-        self.engine().addImportPath(os.sep.join([get_parent_dir(__file__, 2), 'qml']))
+        self.engine().addImportPath(os.sep.join([get_parent_dir(__file__, 2),
+                                                 'qml']))
         if isWebengineUsed:
             # self.initWebengine()
             pass
@@ -37,7 +37,6 @@ class DQuickView(QtQuick.QQuickView):
         self.setColor(QColor(Qt.transparent))
         self.setClearBeforeRendering(True)
 
-
     def setRoundMask(self):
         bmp = QPixmap(self.size())
         bmp.fill(Qt.white)
@@ -49,7 +48,6 @@ class DQuickView(QtQuick.QQuickView):
         p.end()
         self.setMask(QRegion(QBitmap(bmp)))
 
-
     def initWebengine(self):
         component = QtQml.QQmlComponent(self.engine())
         component.setData('''
@@ -60,7 +58,7 @@ class DQuickView(QtQuick.QQuickView):
                     initialize()
                 }
             }
-        ''', QtCore.QUrl(''));
+        ''', QtCore.QUrl(''))
         item = component.create()
         item.setParentItem(self.rootObject())
 

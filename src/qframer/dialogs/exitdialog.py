@@ -72,6 +72,7 @@ def exit(options):
     else:
         return False, dialog.exitflag
 
+
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)

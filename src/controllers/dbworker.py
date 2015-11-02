@@ -4,8 +4,8 @@
 
 import os
 import sys
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot,
-                          pyqtProperty, QUrl, QDate, QDir, QTimer, QRunnable, QThreadPool)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty, QUrl,
+                          QDate, QDir, QTimer, QRunnable, QThreadPool)
 from PyQt5.QtGui import QCursor
 from .utils import registerContext, contexts
 from .utils import duration_to_string
@@ -18,7 +18,6 @@ import datetime
 
 
 class DBRunnable(QRunnable):
-
     def __init__(self, worker, songs):
         super(DBRunnable, self).__init__()
         self.worker = worker
@@ -29,7 +28,6 @@ class DBRunnable(QRunnable):
 
 
 class RestoreDBRunnable(QRunnable):
-
     def __init__(self, worker, songs):
         super(RestoreDBRunnable, self).__init__()
         self.worker = worker
@@ -38,6 +36,7 @@ class RestoreDBRunnable(QRunnable):
     def run(self):
         self.worker.saveSongs(self.songs)
         self.worker.restoreSongsSuccessed.emit()
+
 
 class DBWorker(QObject):
 
@@ -58,6 +57,7 @@ class DBWorker(QObject):
 
     def addSong(self, songDict):
         self._count += 1
+
         def writeToDB():
             try:
                 artistDict = {'name': songDict['artist']}
@@ -76,6 +76,7 @@ class DBWorker(QObject):
             except Exception, e:
                 logger.error(songDict.pprint())
                 logger.error(e)
+
         QTimer.singleShot(100 * self._count, writeToDB)
 
     def addSongs(self, songs):
@@ -101,12 +102,12 @@ class DBWorker(QObject):
             artists.append({
                 'name': song['artist'],
                 # 'created_date': song['created_date']
-                })
+            })
             albums.append({
-                'name': song['album'], 
+                'name': song['album'],
                 'artist': song['artist'],
                 # 'created_date': song['created_date']
-                })
+            })
             folders.append({
                 'name': song['folder'],
                 # 'created_date': song['created_date']

@@ -1,17 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
 import time
 import json
 import datetime
-from PyQt5.QtCore import (QObject, pyqtSignal,
-                pyqtSlot, pyqtProperty, QDir, 
-                QDirIterator, QTimer, QThread,
-                QThreadPool, QAbstractListModel, Qt, 
-                QModelIndex, QVariant, QFile)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty, QDir,
+                          QDirIterator, QTimer, QThread, QThreadPool,
+                          QAbstractListModel, Qt, QModelIndex, QVariant, QFile)
 from PyQt5.QtGui import QImage
 from PyQt5.QtQml import QJSValue
 from PyQt5.QtWidgets import QFileDialog
@@ -34,42 +31,42 @@ def is_chinese(chinese):
     if isinstance(chinese, str):
         chinese = chinese.decode('utf-8')
     uchar = chinese[0]
-    if uchar >= u'\u4e00' and uchar<=u'\u9fa5':
+    if uchar >= u'\u4e00' and uchar <= u'\u9fa5':
         return True
     else:
         return False
 
+
 p = Pinyin()
 
+
 def getPinyin(chinese):
-    return  p.get_pinyin(chinese, '')
+    return p.get_pinyin(chinese, '')
 
 
 class QmlSongObject(QObject):
 
     __metaclass__ = ModelMetaclass
 
-    __Fields__ = (
-        ('url', 'QString'),
-        ('folder', 'QString'),
-        ('title', 'QString'),
-        ('artist', 'QString'),
-        ('album', 'QString'),
-        ('composer', 'QString'),
-        ('tracknumber', int),
-        ('discnumber', int),
-        ('genre', 'QString'),
-        ('date', 'QString'),
-        ('size', int),
-        ('ext', 'QString'),
-        ('mediaType', 'QString'),
-        ('duration', int),
-        ('bitrate', int),
-        ('sample_rate', int),
-        ('cover', 'QString'),
-        ('playCount ', int),
-        ('created_date', float),
-    )
+    __Fields__ = (('url', 'QString'),
+                  ('folder', 'QString'),
+                  ('title', 'QString'),
+                  ('artist', 'QString'),
+                  ('album', 'QString'),
+                  ('composer', 'QString'),
+                  ('tracknumber', int),
+                  ('discnumber', int),
+                  ('genre', 'QString'),
+                  ('date', 'QString'),
+                  ('size', int),
+                  ('ext', 'QString'),
+                  ('mediaType', 'QString'),
+                  ('duration', int),
+                  ('bitrate', int),
+                  ('sample_rate', int),
+                  ('cover', 'QString'),
+                  ('playCount ', int),
+                  ('created_date', float), )
 
     coverReady = pyqtSignal('QString')
 
@@ -91,38 +88,30 @@ class QmlArtistObject(QObject):
 
     __metaclass__ = ModelMetaclass
 
-    __Fields__ = (
-        ('name', 'QString'),
-        ('count', int),
-        ('cover', 'QString'),
-    )
+    __Fields__ = (('name', 'QString'), ('count', int), ('cover', 'QString'), )
 
     def initialize(self, *agrs, **kwargs):
         self.setDict(kwargs)
+
 
 class QmlAlbumObject(QObject):
 
     __metaclass__ = ModelMetaclass
 
-    __Fields__ = (
-        ('name', 'QString'),
-        ('artist', 'QString'),
-        ('count', int),
-        ('cover', 'QString'),
-    )
+    __Fields__ = (('name', 'QString'),
+                  ('artist', 'QString'),
+                  ('count', int),
+                  ('cover', 'QString'), )
 
     def initialize(self, *agrs, **kwargs):
         self.setDict(kwargs)
+
 
 class QmlFolderObject(QObject):
 
     __metaclass__ = ModelMetaclass
 
-    __Fields__ = (
-        ('name', 'QString'),
-        ('count', int),
-        ('cover', 'QString'),
-    )
+    __Fields__ = (('name', 'QString'), ('count', int), ('cover', 'QString'), )
 
     def initialize(self, *agrs, **kwargs):
         self.setDict(kwargs)
@@ -145,6 +134,7 @@ class ArtistListModel(DListModel):
     def __init__(self, dataTye):
         super(ArtistListModel, self).__init__(dataTye)
 
+
 class AlbumListModel(DListModel):
 
     __contextName__ = 'AlbumListModel'
@@ -153,6 +143,7 @@ class AlbumListModel(DListModel):
     def __init__(self, dataTye):
         super(AlbumListModel, self).__init__(dataTye)
 
+
 class FolderListModel(DListModel):
 
     __contextName__ = 'FolderListModel'
@@ -160,6 +151,7 @@ class FolderListModel(DListModel):
     @registerContext
     def __init__(self, dataTye):
         super(FolderListModel, self).__init__(dataTye)
+
 
 class DetailSongListModel(DListModel):
 
@@ -194,7 +186,7 @@ class MusicManageWorker(QObject):
     tipMessageChanged = pyqtSignal('QString')
 
     #qml2py
-    searchAllDriver =pyqtSignal()
+    searchAllDriver = pyqtSignal()
     searchOneFolder = pyqtSignal()
     playArtist = pyqtSignal('QString')
     playAlbum = pyqtSignal('QString')
@@ -203,7 +195,7 @@ class MusicManageWorker(QObject):
 
     switchPage = pyqtSignal('QString')
 
-    #qml2qml 
+    #qml2qml
     detailArtist = pyqtSignal('QString', int)
     detailAlbum = pyqtSignal('QString', int)
     detailFolder = pyqtSignal('QString', int)
@@ -211,9 +203,9 @@ class MusicManageWorker(QObject):
     __contextName__ = 'MusicManageWorker'
 
     _songsDict = LevelJsonDict(os.path.join(LevevDBPath, 'song'))
-    _artistsDict =  LevelJsonDict(os.path.join(LevevDBPath, 'artist'))
+    _artistsDict = LevelJsonDict(os.path.join(LevevDBPath, 'artist'))
     _albumsDict = LevelJsonDict(os.path.join(LevevDBPath, 'album'))
-    _foldersDict =  LevelJsonDict(os.path.join(LevevDBPath, 'folder'))
+    _foldersDict = LevelJsonDict(os.path.join(LevevDBPath, 'folder'))
 
     _songObjs = OrderedDict()
     _artistObjs = OrderedDict()
@@ -269,7 +261,7 @@ class MusicManageWorker(QObject):
             self._songObjsListModel.append(songObj)
 
         # if Artist.select().count() > 0:
-        
+
         self.updateArtist()
 
         # if Album.select().count() > 0:
@@ -285,10 +277,8 @@ class MusicManageWorker(QObject):
         i18nWorker = contexts['I18nWorker']
 
         categories = [
-            {'name': i18nWorker.artist},
-            {'name': i18nWorker.album},
-            {'name': i18nWorker.song},
-            {'name': i18nWorker.folder}
+            {'name': i18nWorker.artist}, {'name': i18nWorker.album},
+            {'name': i18nWorker.song}, {'name': i18nWorker.folder}
         ]
         return categories
 
@@ -296,7 +286,8 @@ class MusicManageWorker(QObject):
     def getSongDownloadPath(cls, singerName, name, ext):
         configWorker = contexts['ConfigWorker']
         downloadSongPath = configWorker.DownloadSongPath
-        return os.path.join(downloadSongPath, '%s-%s.%s' % (singerName, name, ext))
+        return os.path.join(downloadSongPath, '%s-%s.%s' %
+                            (singerName, name, ext))
 
     @classmethod
     def isSongExistedInDataBase(cls, artist, title):
@@ -386,7 +377,7 @@ class MusicManageWorker(QObject):
     @pyqtProperty('QVariant', notify=songCountChanged)
     def songCount(self):
         return len(self._songsDict)
-    
+
     def searchAllDriverMusic(self):
         self.scanFolder(QDir.homePath())
 
@@ -397,10 +388,9 @@ class MusicManageWorker(QObject):
 
     def addSongFile(self):
         urls, _ = QFileDialog.getOpenFileNames(
-            caption="Select one or more files to open", 
-            directory="/home", 
-            filter="music(*mp2 *.mp3 *.mp4 *.m4a *wma *wav)"
-        )
+            caption="Select one or more files to open",
+            directory="/home",
+            filter="music(*mp2 *.mp3 *.mp4 *.m4a *wma *wav)")
         if urls:
             self.addSongFiles(urls)
 
@@ -425,8 +415,10 @@ class MusicManageWorker(QObject):
         self._tempSongs = {}
 
         filters = QDir.Files
-        nameFilters = ["*.wav", "*.wma", "*.mp2", "*.mp3", "*.mp4", "*.m4a", "*.flac", "*.ogg"]
-        qDirIterator = QDirIterator(path, nameFilters, filters, QDirIterator.Subdirectories)
+        nameFilters = ["*.wav", "*.wma", "*.mp2", "*.mp3", "*.mp4", "*.m4a",
+                       "*.flac", "*.ogg"]
+        qDirIterator = QDirIterator(path, nameFilters, filters,
+                                    QDirIterator.Subdirectories)
         while qDirIterator.hasNext():
             qDirIterator.next()
             fileInfo = qDirIterator.fileInfo()
@@ -449,7 +441,8 @@ class MusicManageWorker(QObject):
         if ext and coverData:
             if os.sep in songDict['artist']:
                 songDict['artist'] = songDict['artist'].replace(os.sep, '')
-            coverName = CoverWorker.songCoverPath(songDict['artist'], songDict['title'])
+            coverName = CoverWorker.songCoverPath(songDict['artist'],
+                                                  songDict['title'])
             with open(coverName, 'wb') as f:
                 f.write(coverData)
             songDict['cover'] = coverName
@@ -496,7 +489,8 @@ class MusicManageWorker(QObject):
             artistObj = self._artistObjs[artist]
             index = self._artistObjs.keys().index(artist)
             artistObj.count = _artistDict['count']
-            self._artistObjsListModel.setProperty(index, 'count', _artistDict['count'])
+            self._artistObjsListModel.setProperty(index, 'count',
+                                                  _artistDict['count'])
 
         # add or update album view
         album = songDict['album']
@@ -505,7 +499,7 @@ class MusicManageWorker(QObject):
                 'name': album,
                 'artist': artist,
                 'count': 0,
-                'cover':CoverWorker.getCoverPathByArtistAlbum(artist, album)
+                'cover': CoverWorker.getCoverPathByArtistAlbum(artist, album)
             }
         _albumDict = self._albumsDict[album]
         _albumDict['count'] = _albumDict['count'] + 1
@@ -519,7 +513,8 @@ class MusicManageWorker(QObject):
             albumObj = self._albumObjs[album]
             index = self._albumObjs.keys().index(album)
             albumObj.count = _albumDict['count']
-            self._albumObjsListModel.setProperty(index, 'count', _albumDict['count'])
+            self._albumObjsListModel.setProperty(index, 'count',
+                                                 _albumDict['count'])
 
         # add or update folder view
         folder = songDict['folder']
@@ -527,7 +522,7 @@ class MusicManageWorker(QObject):
             self._foldersDict[folder] = {
                 'name': folder,
                 'count': 0,
-                'cover':CoverWorker.getFolderCover()
+                'cover': CoverWorker.getFolderCover()
             }
         _folderDict = self._foldersDict[folder]
         _folderDict['count'] = _folderDict['count'] + 1
@@ -541,19 +536,20 @@ class MusicManageWorker(QObject):
             folderObj = self._folderObjs[folder]
             index = self._folderObjs.keys().index(folder)
             folderObj.count = _folderDict['count']
-            self._folderObjsListModel.setProperty(index, 'count', _folderDict['count'])
+            self._folderObjsListModel.setProperty(index, 'count',
+                                                  _folderDict['count'])
 
         self.songCountChanged.emit(len(self._songsDict))
 
         # if windowManageWorker.currentMusicManagerPageName == "ArtistPage":
         if not CoverWorker.isArtistCoverExisted(artist):
-                self.downloadArtistCover.emit(artist)
+            self.downloadArtistCover.emit(artist)
 
         if not CoverWorker.isAlbumCoverExisted(artist, album):
-                self.downloadAlbumCover.emit(artist, album)
+            self.downloadAlbumCover.emit(artist, album)
 
     def updateArtistCover(self, artist, url):
-        for artistName in  self._artistsDict:
+        for artistName in self._artistsDict:
             if artist in artistName:
                 _artistDict = self._artistsDict[artistName]
                 artistCoverUrl = CoverWorker.getCoverPathByArtist(artistName)
@@ -564,11 +560,13 @@ class MusicManageWorker(QObject):
                         index = keys.index(artistName)
                         artistObj = self._artistObjs[artistName]
                         artistObj.cover = artistCoverUrl
-                        self._artistObjsListModel.setProperty(index, 'cover', artistCoverUrl)
+                        self._artistObjsListModel.setProperty(index, 'cover',
+                                                              artistCoverUrl)
 
                     for songUrl, songObj in self._songObjs.items():
                         if artist in songObj.artist:
-                            albumCoverUrl = CoverWorker.getCoverPathByArtistAlbum(songObj.artist, songObj.album)
+                            albumCoverUrl = CoverWorker.getCoverPathByArtistAlbum(
+                                songObj.artist, songObj.album)
                             if albumCoverUrl != CoverWorker.defaultAlbumCover:
                                 break
                             else:
@@ -585,7 +583,8 @@ class MusicManageWorker(QObject):
                     index = keys.index(album)
                     albumObj = self._albumObjs[album]
                     albumObj.cover = albumCoverUrl
-                    self._albumObjsListModel.setProperty(index, 'cover', albumCoverUrl)
+                    self._albumObjsListModel.setProperty(index, 'cover',
+                                                         albumCoverUrl)
 
                 for url, songObj in self._songObjs.items():
                     if artist in songObj.artist and album in songObj.album:
@@ -683,7 +682,7 @@ class MusicManageWorker(QObject):
             if actionType == "removeSongByUrl":
                 songInstance = Song.getRecord(**{'url': url})
                 if songInstance:
-                        songInstance.delete_instance()
+                    songInstance.delete_instance()
 
             artistName = songDict['artist']
             albumName = songDict['album']
@@ -738,7 +737,8 @@ class MusicManageWorker(QObject):
             for index, artistObj in enumerate(self._artistObjsListModel.data):
                 if artistObj.name == artistName:
                     if artistDict['count'] > 0:
-                        self._artistObjsListModel.setProperty(index, 'count', artistDict['count'])
+                        self._artistObjsListModel.setProperty(
+                            index, 'count', artistDict['count'])
                     else:
                         self._artistObjsListModel.remove(index)
 
@@ -766,7 +766,8 @@ class MusicManageWorker(QObject):
             for index, albumObj in enumerate(self._albumObjsListModel.data):
                 if albumObj.name == albumName:
                     if albumDict['count'] > 0:
-                        self._albumObjsListModel.setProperty(index, 'count', albumDict['count'])
+                        self._albumObjsListModel.setProperty(
+                            index, 'count', albumDict['count'])
                     else:
                         self._albumObjsListModel.remove(index)
 
@@ -794,7 +795,8 @@ class MusicManageWorker(QObject):
             for index, folderObj in enumerate(self._folderObjsListModel.data):
                 if folderObj.name == folderName:
                     if folderDict['count'] > 0:
-                        self._folderObjsListModel.setProperty(index, 'count', folderDict['count'])
+                        self._folderObjsListModel.setProperty(
+                            index, 'count', folderDict['count'])
                     else:
                         self._folderObjsListModel.remove(index)
 
@@ -916,7 +918,8 @@ class MusicManageWorker(QObject):
                 'name': album.name,
                 'artist': album.artist,
                 'count': album.songs.count(),
-                'cover': CoverWorker.getCoverPathByArtistAlbum(album.artist, album.name)
+                'cover':
+                CoverWorker.getCoverPathByArtistAlbum(album.artist, album.name)
             }
             self._albumsDict[album.name] = albumDict
             albumObj = QmlAlbumObject(**albumDict)
@@ -936,7 +939,7 @@ class MusicManageWorker(QObject):
             folderDict = {
                 'name': folder.name,
                 'count': folder.songs.count(),
-                'cover':CoverWorker.getFolderCover()
+                'cover': CoverWorker.getFolderCover()
             }
             self._foldersDict[folder.name] = folderDict
             folderObj = QmlFolderObject(**folderDict)

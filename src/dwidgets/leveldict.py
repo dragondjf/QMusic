@@ -7,6 +7,7 @@ import json
 
 class LevelDict_leveldb(object, DictMixin):
     """Dict Wrapper around the Google LevelDB Database"""
+
     def __init__(self, path):
         """Constructor for LevelDict"""
         self.path = path
@@ -26,7 +27,7 @@ class LevelDict_leveldb(object, DictMixin):
 
     def __iter__(self):
         for k in self.db.RangeIter(include_value=False):
-            yield k 
+            yield k
 
     def keys(self):
         return [k for k, _ in self.db.RangeIter()]
@@ -51,7 +52,8 @@ class LevelJsonDict_leveldb(LevelDict_leveldb):
 
     def __setitem__(self, key, value):
         try:
-            LevelDict_leveldb.__setitem__(self, json.dumps(key), json.dumps(value))
+            LevelDict_leveldb.__setitem__(self, json.dumps(key),
+                                          json.dumps(value))
         except Exception, e:
             raise e
             print key, value
@@ -74,12 +76,14 @@ class LevelJsonDict_leveldb(LevelDict_leveldb):
             yield json.loads(k), json.loads(v)
 
     def rangescan(self, start=None, end=None):
-        for k, v in LevelDict_leveldb.rangescan(self, json.dumps(start), json.dumps(end)):
+        for k, v in LevelDict_leveldb.rangescan(self, json.dumps(start),
+                                                json.dumps(end)):
             yield json.loads(k), json.loads(v)
 
 
 class LevelDict_plyvel(object, DictMixin):
     """Dict Wrapper around the Google LevelDB Database"""
+
     def __init__(self, path):
         """Constructor for LevelDict"""
         self.path = path
@@ -128,7 +132,8 @@ class LevelJsonDict_plyvel(LevelDict_plyvel):
 
     def __setitem__(self, key, value):
         try:
-            LevelDict_plyvel.__setitem__(self, json.dumps(key), json.dumps(value))
+            LevelDict_plyvel.__setitem__(self, json.dumps(key),
+                                         json.dumps(value))
         except Exception, e:
             raise e
             print key, value
@@ -151,7 +156,8 @@ class LevelJsonDict_plyvel(LevelDict_plyvel):
             yield json.loads(k), json.loads(v)
 
     def rangescan(self, start=None, end=None):
-        for k, v in LevelDict_plyvel.rangescan(self, json.dumps(start), json.dumps(end)):
+        for k, v in LevelDict_plyvel.rangescan(self, json.dumps(start),
+                                               json.dumps(end)):
             yield json.loads(k), json.loads(v)
 
 
@@ -164,9 +170,7 @@ except ImportError:
     LevelDict = LevelDict_plyvel
     LevelJsonDict = LevelJsonDict_plyvel
 
-
 if __name__ == '__main__':
-
 
     db = LevelJsonDict('/tmp/artist/')
 
@@ -197,7 +201,6 @@ if __name__ == '__main__':
     # print len(db.keys())
     # print [1, 2 ,3] in db
     # print db[{1: 1, 2:2 ,3:3}][0]
-
 
     # d = {1: 2, 3:4, u'1': 5}
     # print json.dumps(d)

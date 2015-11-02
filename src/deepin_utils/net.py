@@ -25,18 +25,22 @@ import commands
 import traceback
 import sys
 
+
 def is_network_connected_by_nm():
     try:
         import dbus
         sys_bus = dbus.SystemBus()
-        proxy = sys_bus.get_object("org.freedesktop.NetworkManager","/org/freedesktop/NetworkManager")
+        proxy = sys_bus.get_object("org.freedesktop.NetworkManager",
+                                   "/org/freedesktop/NetworkManager")
         interface = dbus.Interface(proxy, "org.freedesktop.NetworkManager")
         return interface.state() == 70
     except Exception, e:
         return True
 
+
 def is_network_connected_by_route():
     return len(commands.getoutput("route -nNvee").split("\n")) > 2
+
 
 def is_network_connected():
     '''
@@ -55,13 +59,15 @@ def is_network_connected():
         except Exception, e:
             print "function is_network_connected got error: %s" % e
             traceback.print_exc(file=sys.stdout)
-            
+
             return True
+
 
 def get_unused_port(address="localhost"):
     s = socket.socket()
     s.bind((address, 0))
     return s.getsockname()[1]
+
 
 def check_connect_by_port(port, retry_times=6, sleep_time=0.5):
     """

@@ -5,12 +5,10 @@ from .qt.QtCore import *
 from .qt.QtGui import *
 from .resources import *
 
-
 baseHeight = 25
 
 
 class BaseToolButton(QToolButton):
-
     def __init__(self, parent=None):
         super(BaseToolButton, self).__init__(parent)
         self.setFocusPolicy(Qt.NoFocus)
@@ -25,7 +23,9 @@ class BaseToolButton(QToolButton):
     def recover(self):
         import sys
         if sys.platform == "linux2":
-            self.setAttribute(Qt.WA_UnderMouse, self.rect().contains(self.mapFromGlobal(QCursor.pos())))
+            self.setAttribute(
+                Qt.WA_UnderMouse,
+                self.rect().contains(self.mapFromGlobal(QCursor.pos())))
             self.update()
 
 

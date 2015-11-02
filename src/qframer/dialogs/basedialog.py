@@ -5,6 +5,7 @@ import os
 from qframer.qt.QtCore import *
 from qframer.qt.QtGui import *
 
+
 def set_skin(widget, qssfile):
     if os.path.exists(qssfile):
         fd = open(qssfile, "r")
@@ -12,8 +13,8 @@ def set_skin(widget, qssfile):
         fd.close()
         widget.setStyleSheet(style)
 
-class BaseDialog(QDialog):
 
+class BaseDialog(QDialog):
     def __init__(self, styleoptions, parent=None):
         super(BaseDialog, self).__init__(parent)
         title = styleoptions['title']
@@ -26,7 +27,8 @@ class BaseDialog(QDialog):
         self.setWindowTitle(title)
         self.setWindowIcon(QIcon(windowicon))  # 设置程序图标
         self.setMinimumSize(minsize[0], minsize[1])
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowMinimizeButtonHint)  # 无边框， 带系统菜单， 可以最小化
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowSystemMenuHint |
+                            Qt.WindowMinimizeButtonHint)  # 无边框， 带系统菜单， 可以最小化
 
         self.logowidget = DynamicTextWidget(logo_title, logo_img_url)
 
@@ -93,7 +95,8 @@ class DynamicTextWidget(QWidget):
         painter.drawPixmap(0, 0, self.width(), self.height(), QPixmap(self.bg))
 
     def drawDynamicText(self, painter):
-        sineTable = (0, 38, 71, 92, 100, 92, 71, 38, 0, -38, -71, -92, -100, -92, -71, -38)
+        sineTable = (0, 38, 71, 92, 100, 92, 71, 38, 0, -38, -71, -92, -100, -
+                     92, -71, -38)
         metrics = QFontMetrics(self.font())
         x = (self.width() - metrics.width(self.text)) / 2
         y = (self.height() + metrics.ascent() - metrics.descent()) / 2
@@ -103,7 +106,8 @@ class DynamicTextWidget(QWidget):
             index = (self.step + i) % 16
             color.setHsv((15 - index) * 16, 255, 191)
             painter.setPen(color)
-            painter.drawText(x, y - ((sineTable[index] * metrics.height()) / 400), ch)
+            painter.drawText(x, y -
+                             ((sineTable[index] * metrics.height()) / 400), ch)
             x += metrics.width(ch)
 
     def setText(self, newText):

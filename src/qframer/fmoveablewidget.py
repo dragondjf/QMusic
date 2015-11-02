@@ -6,7 +6,6 @@ from .qt.QtGui import *
 
 
 class FMoveableWidget(QFrame):
-
     def __init__(self, parent=None):
         super(FMoveableWidget, self).__init__(parent)
 

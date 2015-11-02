@@ -55,9 +55,9 @@ def numinput(value, start, end, step, options):
     dialog.numspinbox.setSingleStep(step)
     dialog.numspinbox.setFocusPolicy(Qt.NoFocus)
     if dialog.exec_():
-        return True, int(dialog.numspinbox.value())#, str(dialog.ipIn.text())
+        return True, int(dialog.numspinbox.value())  #, str(dialog.ipIn.text())
     else:
-        return False, int(dialog.numspinbox.value())#, str(dialog.ipIn.text())
+        return False, int(dialog.numspinbox.value())  #, str(dialog.ipIn.text())
 
 
 if __name__ == '__main__':

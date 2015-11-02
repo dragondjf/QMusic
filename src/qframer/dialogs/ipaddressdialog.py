@@ -11,6 +11,7 @@ else:
 
 
 class IPaddressDialog(BaseDialog):
+
     def __init__(self, styleoptions, parent=None):
         super(IPaddressDialog, self).__init__(styleoptions, parent)
 
@@ -29,7 +30,7 @@ class IPaddressDialog(BaseDialog):
 
         self.urlwidget.setLayout(ip_mainlayout)
 
-        #确认按钮布局
+        # 确认按钮布局
         self.enterwidget = QWidget()
         self.pbEnter = QPushButton(u'确定', self)
         self.pbCancel = QPushButton(u'取消', self)
@@ -53,7 +54,8 @@ def ipaddressinput(options):
     if dialog.exec_():
         return True, (dialog.ipLineEdit.text(), int(dialog.portLineEdit.text()))
     else:
-        return False, (dialog.ipLineEdit.text(), int(dialog.portLineEdit.text()))
+        return False, (dialog.ipLineEdit.text(),
+                       int(dialog.portLineEdit.text()))
 
 
 if __name__ == '__main__':

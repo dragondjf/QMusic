@@ -8,12 +8,11 @@ from .qt.QtNetwork import *
 
 
 class FWebkitBasePage(QFrame):
-
     def __init__(self, parent=None):
         super(FWebkitBasePage, self).__init__(parent)
         self.parent = parent
-        QWebSettings.globalSettings().setAttribute(
-            QWebSettings.PluginsEnabled, True)
+        QWebSettings.globalSettings().setAttribute(QWebSettings.PluginsEnabled,
+                                                   True)
 
         QNetworkProxyFactory.setUseSystemConfiguration(True)
 

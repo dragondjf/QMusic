@@ -1,14 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
 from collections import OrderedDict
 import json
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot,
-                          pyqtProperty, QUrl, QFile, QIODevice, QTimer
-                          )
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty, QUrl,
+                          QFile, QIODevice, QTimer)
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer
 
 from .utils import registerContext, contexts, registerObj
@@ -26,14 +24,12 @@ from .downloadsongworker import DownloadSongWorker
 
 
 class PlayerBin(QMediaPlayer):
-
     def __init__(self):
         super(PlayerBin, self).__init__()
         self.setNotifyInterval(50)
 
 
 class DLocalMediaContent(QMediaContent):
-
     def __init__(self, url):
         super(DLocalMediaContent, self).__init__(QUrl.fromLocalFile(url))
         self._url = url
@@ -48,7 +44,6 @@ class DLocalMediaContent(QMediaContent):
 
 
 class DOnlineMediaContent(QMediaContent):
-
     def __init__(self, url, tags=None):
         super(DOnlineMediaContent, self).__init__(QUrl(url))
         self._url = url
@@ -60,7 +55,6 @@ class DOnlineMediaContent(QMediaContent):
     @pyqtProperty('QString')
     def type(self):
         return 'DOnlineMediaContent'
-
 
 
 class DMediaPlaylist(QMediaPlaylist):
@@ -259,7 +253,7 @@ class PlaylistWorker(QObject):
     @pyqtSlot('QString', result=bool)
     def isFavorite(self, url):
         if 'favorite' in self._playlists:
-            playlist =  self._playlists['favorite']
+            playlist = self._playlists['favorite']
             if url in playlist.urls:
                 return True
             else:
@@ -305,9 +299,10 @@ class PlaylistWorker(QObject):
 
     @pyqtProperty('QVariant', notify=allPlaylistNamesChanged)
     def allPlaylistNames(self):
-        _names = [{'name': 'favorite'}, {'name': 'temporary'}] + self._playlistNames
+        _names = [{'name': 'favorite'}, {'name': 'temporary'}
+                  ] + self._playlistNames
         return _names
-  
+
     @pyqtSlot('QString')
     def createPlaylistByName(self, name):
         names = self._playlistNames + ['favorite', 'temporary']
@@ -385,12 +380,12 @@ class PlaylistWorker(QObject):
     def removeFromPlaylist(self, playlistName, url):
         print(playlistName in self._playlists)
         if playlistName in self._playlists:
-            playlist =  self._playlists[playlistName]
+            playlist = self._playlists[playlistName]
             playlist.removeMediaByUrl(url)
 
     def addSongToPlaylist(self, url, playlistName):
         if playlistName in self._playlists:
-            playlist =  self._playlists[playlistName]
+            playlist = self._playlists[playlistName]
             if playlistName == 'favorite':
                 signalManager.addtoFavorite.emit(url)
             else:
@@ -399,7 +394,7 @@ class PlaylistWorker(QObject):
     def addSongsToPlaylist(self, value, playlistName, _type):
         print(value, playlistName, _type, playlistName in self._playlists)
         if playlistName in self._playlists:
-            playlist =  self._playlists[playlistName]
+            playlist = self._playlists[playlistName]
             if _type == "Artist":
                 urls = MusicManageWorker.getUrlsByArtist(value)
                 print urls

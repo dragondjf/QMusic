@@ -1,4 +1,3 @@
-
 """
 Provides QtWebKit classes and functions.
 """

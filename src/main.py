@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import os
 os.environ["DUI_STYLE"] = "StyleWhite"
 import sys
@@ -15,11 +14,10 @@ from dwidgets import QSingleApplication
 import config
 import faulthandler
 import threading
-from config.constants import LogCachePath 
+from config.constants import LogCachePath
 
 fd = open(os.path.join(LogCachePath, 'crash.log'), 'w')
 faulthandler.enable(fd, all_threads=True)
-
 
 if __name__ == '__main__':
     app = QSingleApplication(config.applicationName, sys.argv)

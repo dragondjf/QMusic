@@ -53,8 +53,7 @@ class FMainWindow(QMainWindow):
         framelessflag = flag
         if framelessflag:
             # 无边框， 带系统菜单， 可以最小化
-            self.setWindowFlags(
-                Qt.FramelessWindowHint)
+            self.setWindowFlags(Qt.FramelessWindowHint)
         self._framelessflag = framelessflag
 
     def _initMainWindow(self):
@@ -160,8 +159,7 @@ class FMainWindow(QMainWindow):
         if flag:
             self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         else:
-            self.setWindowFlags(
-                self.windowFlags() & (~Qt.WindowStaysOnTopHint))
+            self.setWindowFlags(self.windowFlags() & (~Qt.WindowStaysOnTopHint))
         self.show()
 
     def isPined(self):
@@ -251,8 +249,7 @@ class FMainWindow(QMainWindow):
                 if not self.isLocked():
                     if hasattr(self, "dragPosition"):
                         if event.buttons() == Qt.LeftButton:
-                            self.move(
-                                event.globalPos() - self.dragPosition)
+                            self.move(event.globalPos() - self.dragPosition)
                             event.accept()
 
     def eventFilter(self, obj, event):

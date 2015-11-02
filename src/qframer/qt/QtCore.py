@@ -7,7 +7,6 @@ from . import PYQT5_API
 from . import PYQT4_API
 from . import PYSIDE_API
 
-
 if os.environ[QT_API] == PYQT5_API:
     from PyQt5.QtCore import *
     # compatibility with pyside

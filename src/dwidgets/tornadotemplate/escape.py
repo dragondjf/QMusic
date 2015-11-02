@@ -13,7 +13,6 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
 """Escaping/unescaping methods for HTML, JSON, URLs, and others.
 
 Also includes a few other miscellaneous string manipulation functions that
@@ -50,7 +49,10 @@ except NameError:
     unichr = chr
 
 _XHTML_ESCAPE_RE = re.compile('[&<>"\']')
-_XHTML_ESCAPE_DICT = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;',
+_XHTML_ESCAPE_DICT = {'&': '&amp;',
+                      '<': '&lt;',
+                      '>': '&gt;',
+                      '"': '&quot;',
                       '\'': '&#39;'}
 
 
@@ -65,8 +67,8 @@ def xhtml_escape(value):
 
        Added the single quote to the list of escaped characters.
     """
-    return _XHTML_ESCAPE_RE.sub(lambda match: _XHTML_ESCAPE_DICT[match.group(0)],
-                                to_basestring(value))
+    return _XHTML_ESCAPE_RE.sub(
+        lambda match: _XHTML_ESCAPE_DICT[match.group(0)], to_basestring(value))
 
 
 def xhtml_unescape(value):
@@ -112,11 +114,11 @@ def url_escape(value, plus=True):
     quote = urllib_parse.quote_plus if plus else urllib_parse.quote
     return quote(utf8(value))
 
-
 # python 3 changed things around enough that we need two separate
 # implementations of url_unescape.  We also need our own implementation
 # of parse_qs since python 3's version insists on decoding everything.
 if sys.version_info[0] < 3:
+
     def url_unescape(value, encoding='utf-8', plus=True):
         """Decodes the given value from a URL.
 
@@ -142,6 +144,7 @@ if sys.version_info[0] < 3:
 
     parse_qs_bytes = _parse_qs
 else:
+
     def url_unescape(value, encoding='utf-8', plus=True):
         """Decodes the given value from a URL.
 
@@ -165,8 +168,8 @@ else:
                 value = to_basestring(value).replace('+', ' ')
             return urllib_parse.unquote_to_bytes(value)
         else:
-            unquote = (urllib_parse.unquote_plus if plus
-                       else urllib_parse.unquote)
+            unquote = (urllib_parse.unquote_plus if plus else
+                       urllib_parse.unquote)
             return unquote(to_basestring(value), encoding=encoding)
 
     def parse_qs_bytes(qs, keep_blank_values=False, strict_parsing=False):
@@ -179,8 +182,11 @@ else:
         """
         # This is gross, but python3 doesn't give us another way.
         # Latin1 is the universal donor of character encodings.
-        result = _parse_qs(qs, keep_blank_values, strict_parsing,
-                           encoding='latin1', errors='strict')
+        result = _parse_qs(qs,
+                           keep_blank_values,
+                           strict_parsing,
+                           encoding='latin1',
+                           errors='strict')
         encoded = {}
         for k, v in result.items():
             encoded[k] = [i.encode('latin1') for i in v]
@@ -199,10 +205,10 @@ def utf8(value):
     if isinstance(value, _UTF8_TYPES):
         return value
     if not isinstance(value, unicode_type):
-        raise TypeError(
-            "Expected bytes, unicode, or None; got %r" % type(value)
-        )
+        raise TypeError("Expected bytes, unicode, or None; got %r" %
+                        type(value))
     return value.encode("utf-8")
+
 
 _TO_UNICODE_TYPES = (unicode_type, type(None))
 
@@ -216,9 +222,8 @@ def to_unicode(value):
     if isinstance(value, _TO_UNICODE_TYPES):
         return value
     if not isinstance(value, bytes):
-        raise TypeError(
-            "Expected bytes, unicode, or None; got %r" % type(value)
-        )
+        raise TypeError("Expected bytes, unicode, or None; got %r" %
+                        type(value))
     return value.decode("utf-8")
 
 # to_unicode was previously named _unicode not because it was private,
@@ -247,9 +252,8 @@ def to_basestring(value):
     if isinstance(value, _BASESTRING_TYPES):
         return value
     if not isinstance(value, bytes):
-        raise TypeError(
-            "Expected bytes, unicode, or None; got %r" % type(value)
-        )
+        raise TypeError("Expected bytes, unicode, or None; got %r" %
+                        type(value))
     return value.decode("utf-8")
 
 
@@ -259,7 +263,8 @@ def recursive_unicode(obj):
     Supports lists, tuples, and dictionaries.
     """
     if isinstance(obj, dict):
-        return dict((recursive_unicode(k), recursive_unicode(v)) for (k, v) in obj.items())
+        return dict((recursive_unicode(k), recursive_unicode(v))
+                    for (k, v) in obj.items())
     elif isinstance(obj, list):
         return list(recursive_unicode(i) for i in obj)
     elif isinstance(obj, tuple):
@@ -276,11 +281,15 @@ def recursive_unicode(obj):
 # This regex should avoid those problems.
 # Use to_unicode instead of tornado.util.u - we don't want backslashes getting
 # processed as escapes.
-_URL_RE = re.compile(to_unicode(r"""\b((?:([\w-]+):(/{1,3})|www[.])(?:(?:(?:[^\s&()]|&amp;|&quot;)*(?:[^!"#$%&'()*+,.:;<=>?@\[\]^`{|}~\s]))|(?:\((?:[^\s&()]|&amp;|&quot;)*\)))+)"""))
+_URL_RE = re.compile(to_unicode(
+    r"""\b((?:([\w-]+):(/{1,3})|www[.])(?:(?:(?:[^\s&()]|&amp;|&quot;)*(?:[^!"#$%&'()*+,.:;<=>?@\[\]^`{|}~\s]))|(?:\((?:[^\s&()]|&amp;|&quot;)*\)))+)"""))
 
 
-def linkify(text, shorten=False, extra_params="",
-            require_protocol=False, permitted_protocols=["http", "https"]):
+def linkify(text,
+            shorten=False,
+            extra_params="",
+            require_protocol=False,
+            permitted_protocols=["http", "https"]):
     """Converts plain text into HTML with links.
 
     For example: ``linkify("Hello http://tornadoweb.org!")`` would return
@@ -324,7 +333,7 @@ def linkify(text, shorten=False, extra_params="",
 
         href = m.group(1)
         if not proto:
-            href = "http://" + href   # no proto specified, use http
+            href = "http://" + href  # no proto specified, use http
 
         if callable(extra_params):
             params = " " + extra_params(href).strip()
@@ -392,5 +401,6 @@ def _build_unicode_map():
     for name, value in htmlentitydefs.name2codepoint.items():
         unicode_map[name] = unichr(value)
     return unicode_map
+
 
 _HTML_UNICODE_MAP = _build_unicode_map()

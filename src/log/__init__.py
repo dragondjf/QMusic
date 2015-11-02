@@ -9,8 +9,8 @@ from logging import RootLogger
 import traceback
 from config.constants import LogPath
 
-class ALERootLogger(RootLogger):
 
+class ALERootLogger(RootLogger):
     def __init__(self, level):
         super(ALERootLogger, self).__init__(level)
 
@@ -21,6 +21,7 @@ class ALERootLogger(RootLogger):
         else:
             msg = _t[:-1]
         super(ALERootLogger, self).error(msg, *args, **kwargs)
+
 
 def handle_exception(exc_type, exc_value, exc_traceback):
     info = ''.join(traceback.format_exception(exc_type, exc_value, exc_traceback))
@@ -38,7 +39,8 @@ fh.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
 #log formatter
-formatter = logging.Formatter('%(asctime)s %(levelname)8s [%(filename)s%(lineno)06s] %(message)s')
+formatter = logging.Formatter(
+    '%(asctime)s %(levelname)8s [%(filename)s%(lineno)06s] %(message)s')
 fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 logging.root.addHandler(fh)

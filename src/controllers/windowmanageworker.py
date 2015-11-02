@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, pyqtProperty
@@ -99,5 +98,6 @@ class WindowManageWorker(QObject):
 
     def actionMiniMode(self):
         self.miniWindowShowed.emit()
+
 
 windowManageWorker = WindowManageWorker()

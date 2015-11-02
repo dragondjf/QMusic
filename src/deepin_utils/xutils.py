@@ -24,44 +24,48 @@ from Xlib import Xatom, display
 
 xlib_display = None
 
+
 def init_xlib(func):
     global xlib_display
-    
+
     if xlib_display == None:
-        xlib_display =  display.Display()
-        
+        xlib_display = display.Display()
+
     def wrap(*a, **kw):
         ret = func(*a, **kw)
         return ret
-        
+
     return wrap
 
-@init_xlib        
+
+@init_xlib
 def get_window_by_id(win_id):
     return xlib_display.create_resource_object("window", win_id)
 
-@init_xlib        
+
+@init_xlib
 def set_window_property(xwindow, property_type, property_content):
     xwindow.change_property(
         xlib_display.get_atom(property_type),
         Xatom.STRING,
         8,
-        property_content,
-        )    
+        property_content, )
     xlib_display.sync()
-    
-@init_xlib    
+
+
+@init_xlib
 def get_window_property(xwindow, property_type):
     try:
         return xwindow.get_full_property(
-            xlib_display.get_atom(property_type),
-            Xatom.STRING
-            ).value
+            xlib_display.get_atom(property_type), Xatom.STRING).value
     except:
         return None
 
+
 def set_window_property_by_id(window_id, property_type, property_content):
-    set_window_property(get_window_by_id(window_id), property_type, property_content)
-    
+    set_window_property(
+        get_window_by_id(window_id), property_type, property_content)
+
+
 def get_window_property_by_id(window_id, property_type):
     return get_window_property(get_window_by_id(window_id), property_type)

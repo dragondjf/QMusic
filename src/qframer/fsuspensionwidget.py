@@ -6,7 +6,6 @@ from .qt.QtGui import *
 
 
 class FSuspensionWidget(QFrame):
-
     '''
         Suspension window
     '''

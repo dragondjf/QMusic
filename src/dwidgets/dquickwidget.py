@@ -17,13 +17,13 @@ else:
 
 
 class DQuickWidget(QQuickWidget):
-
     """The DQuickWidget ini webengine in PyQt5"""
 
     def __init__(self, engine=None, parent=None):
         super(DQuickWidget, self).__init__(engine, parent)
         self.setResizeMode(self.SizeViewToRootObject)
-        self.engine().addImportPath(os.sep.join([get_parent_dir(__file__, 2), 'qml']))
+        self.engine().addImportPath(os.sep.join([get_parent_dir(__file__, 2),
+                                                 'qml']))
 
 
 if __name__ == '__main__':

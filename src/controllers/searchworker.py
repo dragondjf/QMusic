@@ -1,12 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot,
-                          pyqtProperty, QUrl, QThreadPool, 
-                          QRunnable)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty, QUrl,
+                          QThreadPool, QRunnable)
 from PyQt5.QtGui import QCursor, QDesktopServices
 import requests
 from models import *
@@ -22,15 +20,13 @@ class QmlOnlineSongObject(QObject):
 
     __metaclass__ = ModelMetaclass
 
-    __Fields__ = (
-        ('url', 'QString'),
-        ('title', 'QString'),
-        ('artist', 'QString'),
-        ('album', 'QString'),
-        ('songId', int),
-        ('singerId', int),
-        ('albumId', int),
-    )
+    __Fields__ = (('url', 'QString'),
+                  ('title', 'QString'),
+                  ('artist', 'QString'),
+                  ('album', 'QString'),
+                  ('songId', int),
+                  ('singerId', int),
+                  ('albumId', int), )
 
     def initialize(self, *agrs, **kwargs):
         self.setDict(kwargs)
@@ -40,13 +36,9 @@ class QmlOnlineAlbumObject(QObject):
 
     __metaclass__ = ModelMetaclass
 
-    __Fields__ = (
-        ('singerId', int),
-        ('albumId', int),
-        ('artist', 'QString'),
-        ('album', 'QString'),
-        ('cover', 'QString', CoverWorker.defaultAlbumCover)
-    )
+    __Fields__ = (('singerId', int), ('albumId', int), ('artist', 'QString'),
+                  ('album', 'QString'),
+                  ('cover', 'QString', CoverWorker.defaultAlbumCover))
 
     def initialize(self, *agrs, **kwargs):
         self.setDict(kwargs)
@@ -56,12 +48,9 @@ class QmlSuggestPlaylistObject(QObject):
 
     __metaclass__ = ModelMetaclass
 
-    __Fields__ = (
-        ('listId', int),
-        ('listName', 'QString'),
-        ('playAll', 'QString'),
-        ('cover', 'QString', CoverWorker.defaultAlbumCover)
-    )
+    __Fields__ = (('listId', int), ('listName', 'QString'),
+                  ('playAll', 'QString'),
+                  ('cover', 'QString', CoverWorker.defaultAlbumCover))
 
     def initialize(self, *agrs, **kwargs):
         self.setDict(kwargs)
@@ -75,6 +64,7 @@ class SearchLocalSongListModel(DListModel):
     def __init__(self, dataTye):
         super(SearchLocalSongListModel, self).__init__(dataTye)
 
+
 class SearchLocalArtistListModel(DListModel):
 
     __contextName__ = 'SearchLocalArtistListModel'
@@ -82,6 +72,7 @@ class SearchLocalArtistListModel(DListModel):
     @registerContext
     def __init__(self, dataTye):
         super(SearchLocalArtistListModel, self).__init__(dataTye)
+
 
 class SearchLocalAlbumListModel(DListModel):
 
@@ -99,6 +90,7 @@ class SearchOnlineSongListModel(DListModel):
     @registerContext
     def __init__(self, dataTye):
         super(SearchOnlineSongListModel, self).__init__(dataTye)
+
 
 class SearchOnlineAlbumListModel(DListModel):
 
@@ -118,9 +110,7 @@ class SuggestPlaylistListModel(DListModel):
         super(SuggestPlaylistListModel, self).__init__(dataTye)
 
 
-
 class AlbumCover360Runnable(QRunnable):
-
     def __init__(self, index, worker, artist, album, url):
         super(AlbumCover360Runnable, self).__init__()
         self.index = index
@@ -141,7 +131,6 @@ class AlbumCover360Runnable(QRunnable):
 
 
 class PlaylistCover360Runnable(QRunnable):
-
     def __init__(self, index, worker, listName, url):
         super(PlaylistCover360Runnable, self).__init__()
         self.index = index
@@ -169,7 +158,8 @@ class SearchWorker(QObject):
     _searchLocalAlbumObjsListModel = SearchLocalAlbumListModel(QmlAlbumObject)
 
     _searchOnlineSongObjsListModel = SearchOnlineSongListModel(QmlOnlineSongObject)
-    _searchOnlineAlbumObjsListModel = SearchOnlineAlbumListModel(QmlOnlineAlbumObject)
+    _searchOnlineAlbumObjsListModel = SearchOnlineAlbumListModel(
+        QmlOnlineAlbumObject)
 
     _suggestPlayListModel = SuggestPlaylistListModel(QmlSuggestPlaylistObject)
 
@@ -193,7 +183,6 @@ class SearchWorker(QObject):
         signalManager.onlineResult.connect(self.handleOnlineSongs)
         signalManager.suggestPlaylist.connect(self.handleSuggestPlaylist)
 
-
     @pyqtProperty('QString', notify=keywordChanged)
     def keyword(self):
         return self._keyword
@@ -206,20 +195,24 @@ class SearchWorker(QObject):
     def searchLocalSongs(self, keyword):
         self.keyword = keyword
         self._searchLocalSongObjsListModel.clear()
-        for song in Song.select().where(Song.title.contains(keyword) | Song.artist.contains(
-            keyword) | Song.album.contains(keyword)):
+        for song in Song.select().where(Song.title.contains(
+                keyword) | Song.artist.contains(keyword) | Song.album.contains(
+                    keyword)):
             if song.url in MusicManageWorker._songObjs:
-                self._searchLocalSongObjsListModel.append(MusicManageWorker._songObjs[song.url])
+                self._searchLocalSongObjsListModel.append(
+                    MusicManageWorker._songObjs[song.url])
 
         self._searchLocalArtistObjsListModel.clear()
         for artist in Artist.select().where(Artist.name.contains(keyword)):
             if artist.name in MusicManageWorker._artistObjs:
-                self._searchLocalArtistObjsListModel.append(MusicManageWorker._artistObjs[artist.name])
+                self._searchLocalArtistObjsListModel.append(
+                    MusicManageWorker._artistObjs[artist.name])
 
         self._searchLocalAlbumObjsListModel.clear()
         for album in Album.select().where(Album.name.contains(keyword)):
             if album.name in MusicManageWorker._albumObjs:
-                self._searchLocalAlbumObjsListModel.append(MusicManageWorker._albumObjs[album.name])
+                self._searchLocalAlbumObjsListModel.append(
+                    MusicManageWorker._albumObjs[album.name])
 
     def handleOnlineSongs(self, result):
         self._searchOnlineSongObjsListModel.clear()
@@ -245,17 +238,20 @@ class SearchWorker(QObject):
                 album['artist'] = album['singerName']
                 album['album'] = album['albumName']
                 if self.isAlbumCoverExisted(album['artist'], album['album']):
-                    album['cover'] = self.getAlbumCoverPath(album['artist'], album['album'])
+                    album['cover'] = self.getAlbumCoverPath(album['artist'],
+                                                            album['album'])
                 else:
-                    d = AlbumCover360Runnable(index, self, album['artist'], album['album'], album['albumImage'])
+                    d = AlbumCover360Runnable(index, self, album['artist'],
+                                              album['album'],
+                                              album['albumImage'])
                     QThreadPool.globalInstance().start(d)
 
                 obj = QmlOnlineAlbumObject(**album)
                 self._searchOnlineAlbumObjsListModel.append(obj)
 
     def updateOnlineAlbumListModel(self, index, coverPath):
-        self._searchOnlineAlbumObjsListModel.setProperty(index, 'cover', coverPath)
-
+        self._searchOnlineAlbumObjsListModel.setProperty(index, 'cover',
+                                                         coverPath)
 
     def handleSuggestPlaylist(self, result):
         if 'lists' in result:
@@ -274,9 +270,11 @@ class SearchWorker(QObject):
                 _list['playAll'] = playlist['playAll']
 
                 if self.isPlaylistCoverExisted(playlist['listName']):
-                    _list['cover'] = self.getPlaylistCoverPath(playlist['listName'])
+                    _list['cover'] = self.getPlaylistCoverPath(playlist[
+                        'listName'])
                 else:
-                    d = PlaylistCover360Runnable(index, self, playlist['listName'], playlist['image'])
+                    d = PlaylistCover360Runnable(
+                        index, self, playlist['listName'], playlist['image'])
                     QThreadPool.globalInstance().start(d)
 
                 obj = QmlSuggestPlaylistObject(**_list)
@@ -295,8 +293,8 @@ class SearchWorker(QObject):
 
     @classmethod
     def getAlbumCoverPath(cls, artist, album):
-        return os.path.join(OnlineAlbumCoverPath, cls.md5('%s-%s'%(artist, album)))
-
+        return os.path.join(OnlineAlbumCoverPath, cls.md5('%s-%s' %
+                                                          (artist, album)))
 
     @classmethod
     def isPlaylistCoverExisted(cls, listName):
@@ -315,5 +313,6 @@ class SearchWorker(QObject):
         import hashlib
         md5Value = hashlib.md5(s.encode('utf-8'))
         return md5Value.hexdigest()
+
 
 searchWorker = SearchWorker()

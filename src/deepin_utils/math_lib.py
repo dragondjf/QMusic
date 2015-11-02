@@ -23,6 +23,7 @@
 from numpy import matrix
 from numpy import linalg
 
+
 def solve_parabola((ax, ay), (bx, by), (cx, cy)):
     '''
     y = a * x ^ 2 + b * x + c
@@ -44,7 +45,8 @@ def solve_parabola((ax, ay), (bx, by), (cx, cy)):
     Because AX = B, if we want got X, we should use equation:
        X = inverse(A) * B
     '''
-    matrix_a = matrix([[pow(ax, 2), ax, 1], [pow(bx, 2), bx, 1], [pow(cx, 2), cx, 1]])
+    matrix_a = matrix([[pow(ax, 2), ax, 1], [pow(bx, 2), bx, 1], [pow(cx, 2),
+                                                                  cx, 1]])
     matrix_b = matrix([[ay], [by], [cy]])
-    
+
     return linalg.solve(matrix_a, matrix_b).tolist()

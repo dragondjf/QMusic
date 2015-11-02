@@ -13,7 +13,6 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
 """A simple template system that compiles templates to Python code.
 
 Basic usage looks like::
@@ -215,11 +214,16 @@ class Template(object):
     We compile into Python from the given template_string. You can generate
     the template from variables with generate().
     """
+
     # note that the constructor's signature is not extracted with
     # autodoc because _UNSET looks like garbage.  When changing
     # this signature update website/sphinx/template.rst too.
-    def __init__(self, template_string, name="<string>", loader=None,
-                 compress_whitespace=None, autoescape=_UNSET):
+    def __init__(self,
+                 template_string,
+                 name="<string>",
+                 loader=None,
+                 compress_whitespace=None,
+                 autoescape=_UNSET):
         self.name = name
         if compress_whitespace is None:
             compress_whitespace = name.endswith(".html") or \
@@ -243,7 +247,8 @@ class Template(object):
             self.compiled = compile(
                 escape.to_unicode(self.code),
                 "%s.generated.py" % self.name.replace('.', '_'),
-                "exec", dont_inherit=True)
+                "exec",
+                dont_inherit=True)
         except Exception:
             formatted_code = _format_code(self.code).rstrip()
             print("%s code:%s", self.name, formatted_code)
@@ -285,8 +290,8 @@ class Template(object):
             ancestors.reverse()
             for ancestor in ancestors:
                 ancestor.find_named_blocks(loader, named_blocks)
-            writer = _CodeWriter(buffer, named_blocks, loader, ancestors[0].template,
-                                 compress_whitespace)
+            writer = _CodeWriter(buffer, named_blocks, loader,
+                                 ancestors[0].template, compress_whitespace)
             ancestors[0].generate(writer)
             return buffer.getvalue()
         finally:
@@ -311,6 +316,7 @@ class BaseLoader(object):
     ``{% extends %}`` and ``{% include %}``. The loader caches all
     templates after they are loaded the first time.
     """
+
     def __init__(self, autoescape=_DEFAULT_AUTOESCAPE, namespace=None):
         """``autoescape`` must be either None or a string naming a function
         in the template namespace, such as "xhtml_escape".
@@ -349,6 +355,7 @@ class BaseLoader(object):
 class Loader(BaseLoader):
     """A template loader that loads from a single root directory.
     """
+
     def __init__(self, root_directory, **kwargs):
         super(Loader, self).__init__(**kwargs)
         self.root = os.path.abspath(root_directory)
@@ -373,6 +380,7 @@ class Loader(BaseLoader):
 
 class DictLoader(BaseLoader):
     """A template loader that loads from a dictionary."""
+
     def __init__(self, dict, **kwargs):
         super(DictLoader, self).__init__(**kwargs)
         self.dict = dict
@@ -416,7 +424,7 @@ class _File(_Node):
             writer.write_line("return _tt_utf8('').join(_tt_buffer)", self.line)
 
     def each_child(self):
-        return (self.body,)
+        return (self.body, )
 
 
 class _ChunkList(_Node):
@@ -439,7 +447,7 @@ class _NamedBlock(_Node):
         self.line = line
 
     def each_child(self):
-        return (self.body,)
+        return (self.body, )
 
     def generate(self, writer):
         block = writer.named_blocks[self.name]
@@ -479,7 +487,7 @@ class _ApplyBlock(_Node):
         self.body = body
 
     def each_child(self):
-        return (self.body,)
+        return (self.body, )
 
     def generate(self, writer):
         method_name = "_tt_apply%d" % writer.apply_counter
@@ -490,8 +498,9 @@ class _ApplyBlock(_Node):
             writer.write_line("_tt_append = _tt_buffer.append", self.line)
             self.body.generate(writer)
             writer.write_line("return _tt_utf8('').join(_tt_buffer)", self.line)
-        writer.write_line("_tt_append(_tt_utf8(%s(%s())))" % (
-            self.method, method_name), self.line)
+        writer.write_line("_tt_append(_tt_utf8(%s(%s())))" % (self.method,
+                                                              method_name),
+                          self.line)
 
 
 class _ControlBlock(_Node):
@@ -501,7 +510,7 @@ class _ControlBlock(_Node):
         self.body = body
 
     def each_child(self):
-        return (self.body,)
+        return (self.body, )
 
     def generate(self, writer):
         writer.write_line("%s:" % self.statement, self.line)
@@ -519,7 +528,8 @@ class _IntermediateControlBlock(_Node):
     def generate(self, writer):
         # In case the previous block was empty
         writer.write_line("pass", self.line)
-        writer.write_line("%s:" % self.statement, self.line, writer.indent_size() - 1)
+        writer.write_line("%s:" % self.statement, self.line,
+                          writer.indent_size() - 1)
 
 
 class _Statement(_Node):
@@ -552,7 +562,8 @@ class _Expression(_Node):
 
 class _Module(_Expression):
     def __init__(self, expression, line):
-        super(_Module, self).__init__("_tt_modules." + expression, line,
+        super(_Module, self).__init__("_tt_modules." + expression,
+                                      line,
                                       raw=True)
 
 
@@ -715,8 +726,8 @@ def _parse(reader, template, in_block=None, in_loop=None):
             # When there are more than 2 curlies in a row, use the
             # innermost ones.  This is useful when generating languages
             # like latex where curlies are also meaningful
-            if (curly + 2 < reader.remaining() and
-                    reader[curly + 1] == '{' and reader[curly + 2] == '{'):
+            if (curly + 2 < reader.remaining() and reader[curly + 1] == '{' and
+                    reader[curly + 2] == '{'):
                 curly += 1
                 continue
             break
@@ -785,7 +796,8 @@ def _parse(reader, template, in_block=None, in_loop=None):
                 raise ParseError("%s outside %s block" %
                                  (operator, allowed_parents))
             if in_block not in allowed_parents:
-                raise ParseError("%s block cannot be attached to %s block" % (operator, in_block))
+                raise ParseError("%s block cannot be attached to %s block" %
+                                 (operator, in_block))
             body.chunks.append(_IntermediateControlBlock(contents, line))
             continue
 
@@ -802,16 +814,19 @@ def _parse(reader, template, in_block=None, in_loop=None):
             if operator == "extends":
                 suffix = suffix.strip('"').strip("'")
                 if not suffix:
-                    raise ParseError("extends missing file path on line %d" % line)
+                    raise ParseError("extends missing file path on line %d" %
+                                     line)
                 block = _ExtendsBlock(suffix)
             elif operator in ("import", "from"):
                 if not suffix:
-                    raise ParseError("import missing statement on line %d" % line)
+                    raise ParseError("import missing statement on line %d" %
+                                     line)
                 block = _Statement(contents, line)
             elif operator == "include":
                 suffix = suffix.strip('"').strip("'")
                 if not suffix:
-                    raise ParseError("include missing file path on line %d" % line)
+                    raise ParseError("include missing file path on line %d" %
+                                     line)
                 block = _IncludeBlock(suffix, reader, line)
             elif operator == "set":
                 if not suffix:
@@ -843,7 +858,8 @@ def _parse(reader, template, in_block=None, in_loop=None):
 
             if operator == "apply":
                 if not suffix:
-                    raise ParseError("apply missing method name on line %d" % line)
+                    raise ParseError("apply missing method name on line %d" %
+                                     line)
                 block = _ApplyBlock(suffix, line, block_body)
             elif operator == "block":
                 if not suffix:
@@ -856,7 +872,8 @@ def _parse(reader, template, in_block=None, in_loop=None):
 
         elif operator in ("break", "continue"):
             if not in_loop:
-                raise ParseError("%s outside %s block" % (operator, set(["for", "while"])))
+                raise ParseError("%s outside %s block" %
+                                 (operator, set(["for", "while"])))
             body.chunks.append(_Statement(contents, line))
             continue
 

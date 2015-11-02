@@ -22,9 +22,11 @@
 from hashlib import md5
 import hashlib
 
+
 def check_hash(path, hash_type, hash_value):
     '''Check hash value.'''
     return get_hash(path, hash_type) == hash_value
+
 
 def get_hash(path, hash_type):
     hash_fun = hashlib.new(hash_type)
@@ -36,11 +38,13 @@ def get_hash(path, hash_type):
             hash_fun.update(bytes)
     return hash_fun.hexdigest()
 
+
 def md5_data(data):
-    m = md5()   
-    m.update(data)   
-    
-    return m.hexdigest() 
+    m = md5()
+    m.update(data)
+
+    return m.hexdigest()
+
 
 def md5_file(name):
     return get_hash(name, "md5")

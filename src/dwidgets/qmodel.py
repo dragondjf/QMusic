@@ -4,8 +4,7 @@
 import types
 import functools
 from PyQt5 import QtCore
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot,
-                          pyqtProperty)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty)
 import copy
 
 
@@ -26,7 +25,6 @@ class SetJsonKeyExpection(Exception):
 
 
 class ModelMetaclass(type):
-
     def __new__(cls, clsname, clsbases, clsdict):
         if '__Fields__' in clsdict:
             Fields = clsdict['__Fields__']
@@ -37,8 +35,7 @@ class ModelMetaclass(type):
 
         for field in Fields:
             if len(field) < 2:
-                raise FieldExpection(
-                    "Each Field tuple length must be large than 1")
+                raise FieldExpection("Each Field tuple length must be large than 1")
             elif len(field) == 2:
                 if field[1] == 'QString':
                     newfield = (field[0], field[1], '')
@@ -59,7 +56,7 @@ class ModelMetaclass(type):
 
         for k in copy.deepcopy(clsdict):
             if isinstance(clsdict[k], pyqtSignal):
-                Signals.update({k:clsdict[k]})
+                Signals.update({k: clsdict[k]})
                 clsdict.pop(k)
 
         class DObject(QtCore.QObject):
@@ -130,6 +127,7 @@ class ModelMetaclass(type):
                 def _get(key):
                     def f(self):
                         return self.__dict__['_' + key]
+
                     return f
 
                 def _set(key):
@@ -140,19 +138,21 @@ class ModelMetaclass(type):
                         if validmethod in clsdict:
                             method = clsdict[validmethod]
                         else:
+
                             def valid_defaut(self, v):
                                 return True
+
                             method = valid_defaut
                         valid_return = method(self, value)
 
                         if valid_return is True:
-                            error, validFlag = (
-                                "set %s=%s valid ok" % (key, value), True)
+                            error, validFlag = ("set %s=%s valid ok" %
+                                                (key, value), True)
                         elif valid_return is False:
-                            error, validFlag = (
-                                "set %s=%s valid error" % (key, value), False)
+                            error, validFlag = ("set %s=%s valid error" %
+                                                (key, value), False)
                         else:
-                            if(len(valid_return) == 2):
+                            if (len(valid_return) == 2):
                                 validFlag, error = valid_return
                                 if isinstance(validFlag, bool) and \
                                         isinstance(error, str):
@@ -176,18 +176,21 @@ class ModelMetaclass(type):
                             self.fieldChanged.emit(key, value)
                         else:
                             self.valid_message[key] = error
+
                     return f
 
                 set = _set(key)
                 get = _get(key)
 
-                locals()[key] = pyqtProperty(Type, get, set, notify=locals()[key + "Changed"])
+                locals()[key] = pyqtProperty(Type,
+                                             get,
+                                             set,
+                                             notify=locals()[key + "Changed"])
 
         return DObject
 
 
 class Object_Dict(dict):
-
     '''
         Makes a dictionary behave like an object.
     '''
@@ -203,13 +206,9 @@ if __name__ == '__main__':
 
         __metaclass__ = ModelMetaclass
 
-        __Fields__ = (
-            ('model', str, "123"),
-            ('brand', str, "456"),
-            ('year', int),
-            ('inStock', bool),
-            ('d', dict, {'a': 1111})
-        )
+        __Fields__ = (('model', str, "123"), ('brand', str, "456"),
+                      ('year', int), ('inStock', bool),
+                      ('d', dict, {'a': 1111}))
 
         def initialize(self, *args, **kwargs):
             self.modelChanged.connect(self.checkModel)
@@ -223,10 +222,8 @@ if __name__ == '__main__':
         def checkModel(self, model):
             print(model, 'checked')
 
-
     def slot(n):
         print("get data from signal:", n)
-
 
     def test(func):
         import functools
@@ -236,22 +233,18 @@ if __name__ == '__main__':
             print("============ %s start =============" % func.func_name)
             func(*args, **kwagrs)
             print("============ %s end   =============" % func.func_name)
-        return wrapper
 
+        return wrapper
 
     @test
     def test_Json():
         car = Car(model="1111")
         print Car.model, car.model
-        obj = {
-            'model': "8888",
-            'brand': "+++"
-        }
+        obj = {'model': "8888", 'brand': "+++"}
         car.setJson(obj)
         print(car.valid_message)
         print(car.getJson())
         print(car)
-
 
     @test
     def test_attr():
@@ -259,7 +252,6 @@ if __name__ == '__main__':
         car.model = "333"
         print(car.valid_message)
         print(car)
-
 
     @test
     def test_slot():

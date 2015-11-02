@@ -1,12 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import re
 import requests
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, 
-    pyqtProperty, QUrl)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty, QUrl)
 from PyQt5.QtGui import QCursor, QDesktopServices
 from .utils import registerContext
 from config.constants import LRCPath
@@ -56,7 +54,8 @@ class LrcWorker(QObject):
         if ret:
             text, percentage, lyric_id = ret
             if self._lineMode == 1:
-                signalManager.singleTextInfoChanged.emit(text, percentage, lyric_id)
+                signalManager.singleTextInfoChanged.emit(text, percentage,
+                                                         lyric_id)
             elif self._lineMode == 2:
                 texts = []
                 if lyric_id % 2 == 0:
@@ -83,7 +82,7 @@ class LrcWorker(QObject):
     def getLyricTextById(self, lyric_id):
         return self.lrcParser.get_item_lyric(lyric_id)
 
-    def isLrcExisted(self , artist, title):
+    def isLrcExisted(self, artist, title):
         path = self.getLrcPath(artist, title)
         if path:
             if os.path.exists(path):
@@ -102,14 +101,14 @@ class LrcWorker(QObject):
             fp = open(filepath, "r")
             lrc_content = fp.read()
             fp.close()
-        except:    
+        except:
             return False
         else:
             return self.validLrcContent(lrc_content)
 
     def validLrcContent(self, content):
-        partial="".join( (i for i in content if (ord(i) < 128 and ord(i) != 0) ) )
-        return bool(re.search('\[\d{1,}:\d{1,}.*?\]',partial))
+        partial = "".join((i for i in content if (ord(i) < 128 and ord(i) != 0)))
+        return bool(re.search('\[\d{1,}:\d{1,}.*?\]', partial))
 
     @pyqtSlot('QString', 'QString', result=list)
     def getLrcContent(self, artist, title):
@@ -146,16 +145,16 @@ class LrcWorker(QObject):
                         signalManager.noLrcFound.emit()
         except Exception, e:
             logger.info(e)
-        
 
     def multiple_engine(self, lrc_path, artist, title):
         try:
-            engines = [self.ttPlayerEngine, self.ttPodEngine, self.tingEngine, self.sosoEngine, self.duomiEngine]
+            engines = [self.ttPlayerEngine, self.ttPodEngine, self.tingEngine,
+                       self.sosoEngine, self.duomiEngine]
             for engine in engines:
                 lrcPath = engine(lrc_path, artist, title)
                 if lrcPath:
                     return lrcPath
-            # signalManager.noLrcFound.emit()  
+            # signalManager.noLrcFound.emit()
             try:
                 os.unlink(lrc_path)
             except:
@@ -181,7 +180,7 @@ class LrcWorker(QObject):
     def ttPlayerEngine(self, lrc_path, artist, title):
         result = TTPlayer().request(artist, title)
         if result:
-            urls = [item[2] for item in result]                
+            urls = [item[2] for item in result]
             for url in urls:
                 ret = self.downloadLRC(url, lrc_path)
                 if ret:
@@ -192,7 +191,7 @@ class LrcWorker(QObject):
             return None
 
     def ttPodEngine(self, lrc_path, artist, title):
-        ttpod_result = TTPod().request_data(artist, title)        
+        ttpod_result = TTPod().request_data(artist, title)
         if ttpod_result:
             if self.validLrcContent(ttpod_result):
                 with open(lrc_path, 'wb') as fp:
@@ -204,7 +203,7 @@ class LrcWorker(QObject):
     def duomiEngine(self, lrc_path, artist, title):
         duomi_result = DUOMI().request(artist, title)
         if duomi_result:
-            urls = [item[2] for item in duomi_result]                
+            urls = [item[2] for item in duomi_result]
             for url in urls:
                 ret = self.downloadLRC(url, lrc_path)
                 if ret:
@@ -215,7 +214,7 @@ class LrcWorker(QObject):
             return None
 
     def sosoEngine(self, lrc_path, artist, title):
-        soso_result =  SOSO().request(artist, title)
+        soso_result = SOSO().request(artist, title)
         if soso_result:
             urls = [item[2] for item in soso_result]
             for url in urls:

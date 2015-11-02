@@ -18,7 +18,6 @@ import os
 import sys
 import zlib
 
-
 try:
     xrange  # py2
 except NameError:
@@ -28,6 +27,7 @@ except NameError:
 class ObjectDict(dict):
     """Makes a dictionary behave like an object, with attribute-style access.
     """
+
     def __getattr__(self, name):
         try:
             return self[name]
@@ -44,6 +44,7 @@ class GzipDecompressor(object):
     The interface is like that of `zlib.decompressobj` (without some of the
     optional arguments, but it understands gzip headers and checksums.
     """
+
     def __init__(self):
         # Magic parameter makes zlib module understand gzip header
         # http://stackoverflow.com/questions/1838699/how-can-i-decompress-a-gzip-stream-with-zlib
@@ -77,18 +78,20 @@ class GzipDecompressor(object):
         """
         return self.decompressobj.flush()
 
-
 # Fake unicode literal support:  Python 3.2 doesn't have the u'' marker for
 # literal strings, and alternative solutions like "from __future__ import
 # unicode_literals" have other problems (see PEP 414).  u() can be applied
 # to ascii strings that include \u escapes (but they must not contain
 # literal non-ascii characters).
 if not isinstance(b'', type('')):
+
     def u(s):
         return s
+
     unicode_type = str
     basestring_type = str
 else:
+
     def u(s):
         return s.decode('unicode_escape')
     # These names don't exist in py3, so use noqa comments to disable
@@ -128,13 +131,12 @@ def import_object(name):
     except AttributeError:
         raise ImportError("No module named %s" % parts[-1])
 
-
 # Deprecated alias that was used before we dropped py25 support.
 # Left here in case anyone outside Tornado is using it.
 bytes_type = bytes
 
-if sys.version_info > (3,):
-    exec("""
+if sys.version_info > (3, ):
+    exec ("""
 def raise_exc_info(exc_info):
     raise exc_info[1].with_traceback(exc_info[2])
 
@@ -144,7 +146,7 @@ def exec_in(code, glob, loc=None):
     exec(code, glob, loc)
 """)
 else:
-    exec("""
+    exec ("""
 def raise_exc_info(exc_info):
     raise exc_info[0], exc_info[1], exc_info[2]
 
@@ -278,6 +280,7 @@ class ArgReplacer(object):
     whether it is passed by position or keyword.  For use in decorators
     and similar wrappers.
     """
+
     def __init__(self, func, name):
         self.name = name
         try:
@@ -320,7 +323,8 @@ class ArgReplacer(object):
 
 def timedelta_to_seconds(td):
     """Equivalent to td.total_seconds() (introduced in python 2.7)."""
-    return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 10 ** 6) / float(10 ** 6)
+    return (td.microseconds +
+            (td.seconds + td.days * 24 * 3600) * 10**6) / float(10**6)
 
 
 def _websocket_mask_python(mask, data):
@@ -343,6 +347,7 @@ def _websocket_mask_python(mask, data):
         return unmasked.tobytes()
     else:
         return unmasked.tostring()
+
 
 if (os.environ.get('TORNADO_NO_EXTENSION') or
         os.environ.get('TORNADO_EXTENSION') == '0'):

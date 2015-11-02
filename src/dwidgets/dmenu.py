@@ -6,7 +6,6 @@ from PyQt5.QtGui import QIcon, QPixmap, QKeySequence
 
 
 class DMenu(QMenu):
-
     '''
         self.menuItems 定义menu
         self.actions QAction集合
@@ -28,35 +27,24 @@ class DMenu(QMenu):
 
     def createSubAction(self, pmenu_name, menu):
         submenu = self.addMenu(u'%s' % menu['name'])
-        setattr(
-            self,
-            '%smenu' % menu['trigger'],
-            submenu)
+        setattr(self, '%smenu' % menu['trigger'], submenu)
         for menuaction in menu['actions']:
             self.creatAction(submenu, menuaction)
 
     def creatAction(self, submenu, menuaction):
         if 'checkable' in menuaction:
-            setattr(
-                self,
-                '%sAction' % menuaction['trigger'],
-                QAction(
-                    QIcon(QPixmap(menuaction['icon'])),
-                    u'%s' % menuaction['name'],
-                    self,
-                    checkable=menuaction['checkable']
-                )
-            )
+            setattr(self,
+                    '%sAction' % menuaction['trigger'],
+                    QAction(
+                        QIcon(QPixmap(menuaction['icon'])),
+                        u'%s' % menuaction['name'],
+                        self,
+                        checkable=menuaction['checkable']))
         else:
-            setattr(
-                self,
-                '%sAction' % menuaction['trigger'],
-                QAction(
-                    QIcon(QPixmap(menuaction['icon'])),
-                    u'%s' % menuaction['name'],
-                    self,
-                )
-            )
+            setattr(self, '%sAction' % menuaction['trigger'], QAction(
+                QIcon(QPixmap(menuaction['icon'])),
+                u'%s' % menuaction['name'],
+                self, ))
 
         action = getattr(self, '%sAction' % menuaction['trigger'])
         action.setShortcut(QKeySequence(menuaction['shortcut']))

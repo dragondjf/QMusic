@@ -11,7 +11,6 @@ from . import PYQT5_API
 from . import PYQT4_API
 from . import PYSIDE_API
 
-
 if os.environ[QT_API] == PYQT5_API:
     from PyQt5.QtWidgets import *
 elif os.environ[QT_API] == PYQT4_API:
@@ -20,27 +19,33 @@ elif os.environ[QT_API] == PYQT4_API:
 
     class QFileDialog(OldFileDialog):
         @staticmethod
-        def getOpenFileName(parent=None, caption='', directory='',
-                            filter='', selectedFilter='',
+        def getOpenFileName(parent=None,
+                            caption='',
+                            directory='',
+                            filter='',
+                            selectedFilter='',
                             options=OldFileDialog.Options()):
             return OldFileDialog.getOpenFileNameAndFilter(
-                parent, caption, directory, filter, selectedFilter,
-                options)
+                parent, caption, directory, filter, selectedFilter, options)
 
         @staticmethod
-        def getOpenFileNames(parent=None, caption='', directory='',
-                             filter='', selectedFilter='',
+        def getOpenFileNames(parent=None,
+                             caption='',
+                             directory='',
+                             filter='',
+                             selectedFilter='',
                              options=OldFileDialog.Options()):
             return OldFileDialog.getOpenFileNamesAndFilter(
-                parent, caption, directory, filter, selectedFilter,
-                options)
+                parent, caption, directory, filter, selectedFilter, options)
 
         @staticmethod
-        def getSaveFileName(parent=None, caption='', directory='',
-                            filter='', selectedFilter='',
+        def getSaveFileName(parent=None,
+                            caption='',
+                            directory='',
+                            filter='',
+                            selectedFilter='',
                             options=OldFileDialog.Options()):
             return OldFileDialog.getSaveFileNameAndFilter(
-                parent, caption, directory, filter, selectedFilter,
-                options)
+                parent, caption, directory, filter, selectedFilter, options)
 elif os.environ[QT_API] == PYSIDE_API:
     from PySide.QtGui import *

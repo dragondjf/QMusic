@@ -17,8 +17,6 @@ from PyQt5.QtCore import QDir, QUrl
 import chardet
 import copy
 
-
-
 try:
     from config.constants import MusicDBFile
 except:
@@ -33,7 +31,7 @@ class BaseModel(Model):
 
     @classmethod
     @db.atomic()
-    def getRecord(cls,  **kwargs):
+    def getRecord(cls, **kwargs):
         key = getattr(cls, '__key__')
         assert key in kwargs
         try:
@@ -55,7 +53,8 @@ class BaseModel(Model):
     def updateRecord(cls, **kwargs):
         key = getattr(cls, '__key__')
         assert key in kwargs
-        retId = cls.update(**kwargs).where(getattr(cls, key) == kwargs[key]).execute()
+        retId = cls.update(
+            **kwargs).where(getattr(cls, key) == kwargs[key]).execute()
         if retId != 0:
             return True
         else:
@@ -72,7 +71,6 @@ class BaseModel(Model):
             ret = None
         return ret
 
-
     @classmethod
     @db.atomic()
     def get_create_Record(cls, **kwargs):
@@ -82,9 +80,10 @@ class BaseModel(Model):
             ret = cls.create(**kwargs)
         except IntegrityError:
             # print('%s is already in use' % kwargs['url'])
-            retId = cls.update(**kwargs).where(getattr(cls, key) == kwargs[key]).execute()
+            retId = cls.update(
+                **kwargs).where(getattr(cls, key) == kwargs[key]).execute()
             if retId != 0:
-                ret = cls.get(cls.id==retId)
+                ret = cls.get(cls.id == retId)
             else:
                 ret = None
         return ret
@@ -98,7 +97,9 @@ class BaseModel(Model):
                 try:
                     ret = cls.create(**record)
                 except IntegrityError:
-                    cls.update(**record).where(getattr(cls, key) == record[key]).execute()
+                    cls.update(
+                        **
+                        record).where(getattr(cls, key) == record[key]).execute()
 
 
 class Artist(BaseModel):
@@ -126,7 +127,7 @@ class Folder(BaseModel):
     created_date = DateTimeField(default=datetime.datetime.now)
 
     __key__ = 'name'
-    
+
 
 class Playlist(BaseModel):
     name = CharField(default='', unique=True)
@@ -200,32 +201,19 @@ class Song(BaseModel):
         p = {}
         for key in keys:
             if hasattr(self, key):
-                if isinstance(getattr(self, key) , unicode):
+                if isinstance(getattr(self, key), unicode):
                     p[key] = getattr(self, key).encode('utf-8')
                 else:
                     p[key] = getattr(self, key)
-        ret = ''.join(['%s: %s' % (key, p[key]) for key in keys if p.has_key(key)])
+        ret = ''.join(['%s: %s' % (key, p[key]) for key in keys
+                       if p.has_key(key)])
         return ret
 
     def toDict(self):
         keys = [
-            'url',
-            'folder',
-            'title',
-            'artist',
-            'album',
-            'composer',
-            'date',
-            'genre',
-            'tracknumber',
-            'discnumber',
-            'sample_rate',
-            'bitrate',
-            'duration',
-            'size',
-            'ext',
-            'cover',
-            'created_date'
+            'url', 'folder', 'title', 'artist', 'album', 'composer', 'date',
+            'genre', 'tracknumber', 'discnumber', 'sample_rate', 'bitrate',
+            'duration', 'size', 'ext', 'cover', 'created_date'
         ]
 
         p = {}
@@ -263,7 +251,7 @@ class OnlineSong(BaseModel):
     albumImage_500x500 = CharField(default='')
 
     songId = IntegerField(default=0)
-    singerId =  IntegerField(default=0)
+    singerId = IntegerField(default=0)
     albumId = IntegerField(default=0)
 
     serviceEngName = CharField(default='')
@@ -298,11 +286,12 @@ class OnlineSong(BaseModel):
         p = {}
         for key in keys:
             if hasattr(self, key):
-                if isinstance(getattr(self, key) , unicode):
+                if isinstance(getattr(self, key), unicode):
                     p[key] = getattr(self, key).encode('utf-8')
                 else:
                     p[key] = getattr(self, key)
-        ret = ''.join(['%s: %s' % (key, p[key]) for key in keys if p.has_key(key)])
+        ret = ''.join(['%s: %s' % (key, p[key]) for key in keys
+                       if p.has_key(key)])
         return ret
 
     def toDict(self):

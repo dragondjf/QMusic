@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from PyQt5.QtCore import (QCoreApplication, QObject,
-                          QUrl, QThread, QTimer,
+from PyQt5.QtCore import (QCoreApplication, QObject, QUrl, QThread, QTimer,
                           QThreadPool, QPoint)
 from PyQt5.QtGui import QScreen, QIcon
 from views import MainWindow, LrcWindowManager, QmlDialog
@@ -71,8 +70,8 @@ class DeepinPlayer(QObject):
 
     def initQMLContext(self):
         self.mainWindow.setContexts(contexts)
-        self.mainWindow.setSource(QUrl.fromLocalFile(
-            os.path.join(get_parent_dir(__file__, 2), 'views', 'Main.qml')))
+        self.mainWindow.setSource(QUrl.fromLocalFile(os.path.join(
+            get_parent_dir(__file__, 2), 'views', 'Main.qml')))
 
         self.qmlDialog = QmlDialog(self.mainWindow.engine())
         self.mainWindow.setContext('QmlDialog', self.qmlDialog)
@@ -90,16 +89,12 @@ class DeepinPlayer(QObject):
         signalManager.exited.connect(self.qApp.aboutToQuit)
         self.qApp.aboutToQuit.connect(self.close)
 
-
     def playlistWorkerConnect(self):
-        playlistWorker.currentPlaylistChanged.connect(
-            mediaPlayer.setPlaylistByName)
+        playlistWorker.currentPlaylistChanged.connect(mediaPlayer.setPlaylistByName)
 
     def coverWorkerConnect(self):
-        coverWorker.updateArtistCover.connect(
-            musicManageWorker.updateArtistCover)
-        coverWorker.updateAlbumCover.connect(
-            musicManageWorker.updateAlbumCover)
+        coverWorker.updateArtistCover.connect(musicManageWorker.updateArtistCover)
+        coverWorker.updateAlbumCover.connect(musicManageWorker.updateAlbumCover)
         coverWorker.updateOnlineSongCover.connect(
             onlineMusicManageWorker.updateSongCover)
         coverWorker.updateAlbumCover.connect(
@@ -108,24 +103,19 @@ class DeepinPlayer(QObject):
     def musicManageWorkerConnect(self):
         musicManageWorker.saveSongToDB.connect(dbWorker.addSong)
         musicManageWorker.saveSongsToDB.connect(dbWorker.addSongs)
-        musicManageWorker.restoreSongsToDB.connect(
-            dbWorker.restoreSongs)
+        musicManageWorker.restoreSongsToDB.connect(dbWorker.restoreSongs)
         musicManageWorker.addSongToPlaylist.connect(
             playlistWorker.addLocalMediaToTemporary)
         musicManageWorker.addSongsToPlaylist.connect(
             playlistWorker.addLocalMediasToTemporary)
-        musicManageWorker.playSongByUrl.connect(
-            mediaPlayer.playLocalMedia)
+        musicManageWorker.playSongByUrl.connect(mediaPlayer.playLocalMedia)
 
         musicManageWorker.downloadArtistCover.connect(
             coverWorker.downloadArtistCover)
-        musicManageWorker.downloadAlbumCover.connect(
-            coverWorker.downloadAlbumCover)
+        musicManageWorker.downloadAlbumCover.connect(coverWorker.downloadAlbumCover)
 
-        musicManageWorker.loadDBSuccessed.connect(
-            playlistWorker.loadPlaylists)
-        musicManageWorker.loadDBSuccessed.connect(
-            self.loadConfig)
+        musicManageWorker.loadDBSuccessed.connect(playlistWorker.loadPlaylists)
+        musicManageWorker.loadDBSuccessed.connect(self.loadConfig)
 
     def onlineMusicManageWorkerConnect(self):
         onlineMusicManageWorker.downloadOnlineSongCover.connect(
@@ -139,8 +129,7 @@ class DeepinPlayer(QObject):
     def menuWorkerConnect(self):
         # setting menu
         menuWorker.addSongFile.connect(musicManageWorker.addSongFile)
-        menuWorker.addSongFolder.connect(
-            musicManageWorker.searchOneFolderMusic)
+        menuWorker.addSongFolder.connect(musicManageWorker.searchOneFolderMusic)
 
         # artist menu
         menuWorker.playArtist.connect(musicManageWorker.playArtist)
@@ -159,8 +148,7 @@ class DeepinPlayer(QObject):
         # song menu
 
         menuWorker.orderByKey.connect(musicManageWorker.orderByKey)
-        menuWorker.openSongFolder.connect(
-            musicManageWorker.openSongFolder)
+        menuWorker.openSongFolder.connect(musicManageWorker.openSongFolder)
         menuWorker.removeFromDatabaseByUrl.connect(
             musicManageWorker.removeFromDatabaseByUrl)
         menuWorker.removeFromDriveByUrl.connect(
@@ -187,11 +175,11 @@ class DeepinPlayer(QObject):
         menuWorker.addSongsToPlaylist.connect(playlistWorker.addSongsToPlaylist)
 
     def dbWorkerConnect(self):
-        dbWorker.restoreSongsSuccessed.connect(
-            musicManageWorker.loadDB)
+        dbWorker.restoreSongsSuccessed.connect(musicManageWorker.loadDB)
 
     def downloadSongWorkerConnect(self):
-        downloadSongWorker.addDownloadSongToDataBase.connect(musicManageWorker.addLocalSongToDataBase)
+        downloadSongWorker.addDownloadSongToDataBase.connect(
+            musicManageWorker.addLocalSongToDataBase)
 
     def loadConfig(self):
         mediaPlayer.setPlaylistByName(configWorker.lastPlaylistName)

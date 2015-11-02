@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 import os
 import sys
 import copy
@@ -9,9 +8,8 @@ import json
 import re
 import time
 import traceback
-from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot,
-                          pyqtProperty, QThreadPool, QRunnable,
-                          QTimer)
+from PyQt5.QtCore import (QObject, pyqtSignal, pyqtSlot, pyqtProperty,
+                          QThreadPool, QRunnable, QTimer)
 from PyQt5.QtGui import QImage
 import requests
 from log import logger
@@ -31,24 +29,13 @@ class DownloadSongObject(QObject):
     __metaclass__ = ModelMetaclass
 
     __Fields__ = (
-        ('url', 'QString'),
-        ('ext', 'QString'),
-        ('bitrate', 'QString'),
-        ('hdDesc', 'QString'),
-        ('size', int, 0),
-        ('songId', int),
-        ('name', 'QString'),
-        ('singerName', 'QString'),
-        ('singerId',  int),
-        ('albumId', int),
-        ('albumName', 'QString'),
-        ('originalServiceEngName', 'QString'),
-        ('serviceEngName', 'QString'),
-        ('serviceName', 'QString'),
-        ('downloadUrl', 'QString'),
-        ('progress', int),
-        ('downloading', bool, False)
-    )
+        ('url', 'QString'), ('ext', 'QString'), ('bitrate', 'QString'),
+        ('hdDesc', 'QString'), ('size', int, 0), ('songId', int),
+        ('name', 'QString'), ('singerName', 'QString'), ('singerId', int),
+        ('albumId', int), ('albumName', 'QString'),
+        ('originalServiceEngName', 'QString'), ('serviceEngName', 'QString'),
+        ('serviceName', 'QString'), ('downloadUrl', 'QString'),
+        ('progress', int), ('downloading', bool, False))
 
     downloadFinished = pyqtSignal(bool)
     downloadStoped = pyqtSignal(int)
@@ -67,8 +54,8 @@ class DownloadSongObject(QObject):
         self.stopDownloaded = False
         self.isFinished = False
         self.isConnected = False
-        self.filename = DownloadSongWorker.getSongPath(
-            self.singerName, self.name, self.ext)
+        self.filename = DownloadSongWorker.getSongPath(self.singerName,
+                                                       self.name, self.ext)
         self.temp_filename = '%s.tmp' % self.filename
 
         self.speedTimer = QTimer()
@@ -154,7 +141,7 @@ class DownloadSongObject(QObject):
 
     @dthread
     def getMusicInfo(self, musicId):
-       print(musicId)
+        print(musicId)
 
 
 class DownloadSongListModel(DListModel):
@@ -167,7 +154,6 @@ class DownloadSongListModel(DListModel):
 
 
 class DownLoadRunnable(QRunnable):
-
     def __init__(self, songObj):
         super(DownLoadRunnable, self).__init__()
         self.block = 1024
@@ -194,9 +180,7 @@ class DownLoadRunnable(QRunnable):
         '''
             check support continue download or not
         '''
-        headers = {
-            'Range': 'bytes=0-4'
-        }
+        headers = {'Range': 'bytes=0-4'}
         try:
             r = requests.head(url, headers=headers)
             if 'content-range' in r.headers:
@@ -461,7 +445,8 @@ class DownloadSongWorker(QObject):
     def getSongPath(cls, singerName, name, ext):
         configWorker = contexts['ConfigWorker']
         downloadSongPath = configWorker.DownloadSongPath
-        return os.path.join(downloadSongPath, '%s-%s.%s' % (singerName, name, ext))
+        return os.path.join(downloadSongPath, '%s-%s.%s' %
+                            (singerName, name, ext))
 
     @classmethod
     def isSongExisted(cls, artist, title, ext):

@@ -22,29 +22,29 @@
 import dbus
 import os
 
-def auth_with_policykit(action, 
+
+def auth_with_policykit(action,
                         bus_name,
                         object_path,
                         interface_name,
-                        interactive=1,
-                        ):
+                        interactive=1, ):
     system_bus = dbus.SystemBus()
     obj = system_bus.get_object(bus_name, object_path, interface_name)
 
     policykit = dbus.Interface(obj, interface_name)
     pid = os.getpid()
 
-    subject = ('unix-process', 
-               { 'pid' : dbus.UInt32(pid, variant_level=1),
-                 'start-time' : dbus.UInt64(0),
-                 }
-               )
-    details = { '' : '' }
+    subject = ('unix-process', {'pid': dbus.UInt32(pid,
+                                                   variant_level=1),
+                                'start-time': dbus.UInt64(0), })
+    details = {'': ''}
     flags = dbus.UInt32(interactive)
     cancel_id = ''
-    (ok, notused, details) = policykit.CheckAuthorization(subject, action, details, flags, cancel_id)
+    (ok, notused, details) = policykit.CheckAuthorization(
+        subject, action, details, flags, cancel_id)
 
     return ok
+
 
 def is_dbus_name_exists(dbus_name, request_session_bus=True):
     if request_session_bus:
@@ -52,4 +52,3 @@ def is_dbus_name_exists(dbus_name, request_session_bus=True):
     else:
         bus = dbus.SystemBus()
     return bus.name_has_owner(dbus_name)
-
