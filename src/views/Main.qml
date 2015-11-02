@@ -80,7 +80,6 @@ Rectangle {
         interval: 100
         running: true
         onTriggered:{
-            // mainWindow.webEngineViewPage.url = Qt.resolvedUrl("http://music.haosou.com/_linuxdeepin/");
             root.focus = true;
         }
     }
