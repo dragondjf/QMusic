@@ -79,7 +79,7 @@ tag categroys genres country location comment location_lrc
 """.split()
 
 class Song(dict, Logger):
-    ''' The deepin music song class. '''
+    ''' The qmusic song class. '''
     def init_from_dict(self, other_dict=None, cmp_key="uri"):
         ''' init from other dict. '''
         if other_dict:

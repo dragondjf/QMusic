@@ -4,12 +4,12 @@ import os
 import json
 from PyQt5.QtCore import qVersion
 
-applicationName = 'Deepin Music'
+applicationName = 'QMusic'
 applicationVersion = '3.0.0'
-organizationDomain = 'linuxdeepin.com'
-organizationName = "Deepin"
-windowIcon = os.sep.join(['skin', 'images', 'deepin-music.png'])
-windowTitle = u'Deepin Music'
+organizationDomain = 'dragondjf.github.io'
+organizationName = "dragondjf"
+windowIcon = os.sep.join(['skin', 'images', 'QMusic.png'])
+windowTitle = u'QMusic'
 
 if qVersion().startswith('5.3'):
     isWebengineUsed = False

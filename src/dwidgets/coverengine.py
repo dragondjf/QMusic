@@ -385,18 +385,6 @@ class CoverWorker(QObject):
         d = CoverRunnable(self, artist, album, qtype="artist")
         QThreadPool.globalInstance().start(d)
 
-    @classmethod
-    def getArtistCoverPath(cls, artist):
-        ArtistCoverPath = '/home/djf/.config/DeepinMusic3/cover/artist'
-        filepath = os.path.join(ArtistCoverPath, artist)
-        return filepath
-
-    @classmethod
-    def getAlbumCoverPath(cls, artist, album):
-        ArtistCoverPath = '/home/djf/.config/DeepinMusic3/cover/album'
-        filepath = os.path.join(ArtistCoverPath, '%s-%s' % (artist, album))
-        return filepath
-
 
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)

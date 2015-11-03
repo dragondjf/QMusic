@@ -26,7 +26,7 @@ DownloadSongPath = os.path.join(
     QStandardPaths.writableLocation(QStandardPaths.MusicLocation), 'download')
 LRCPath = os.path.join(
     QStandardPaths.writableLocation(QStandardPaths.MusicLocation), 'lyrics')
-LogCachePath = os.path.join(Home, '.cache', 'deepin-muisc')
+LogCachePath = os.path.join(Home, '.cache', 'qmuisc')
 LogPath = os.path.join(LogCachePath, 'main.log')
 
 paths = [
